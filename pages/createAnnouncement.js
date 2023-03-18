@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Select, { components } from 'react-select'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
-import {auth, db} from './firebase'
+import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/createAnnouncement.module.css'
 

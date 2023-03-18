@@ -1,5 +1,5 @@
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
-import {auth, db} from './firebase'
+import {auth, db} from '../firebase'
 import { useEffect, useState } from 'react'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
 import Task from "../components/task/task";

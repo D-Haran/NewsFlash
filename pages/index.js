@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import {auth, db} from './firebase'
+import {auth, db} from '../firebase'
 import {useState, useContext, useEffect, Fragment} from 'react'
 import styles from '../styles/Home.module.css'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";

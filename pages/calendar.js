@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
-import {auth, db} from './firebase'
+import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import Modal from 'react-modal';

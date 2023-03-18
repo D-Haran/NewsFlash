@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import styles from './teacher.module.css'
 import Select from 'react-select'
-import {auth, db} from "../../../firebase"
+import {auth, db} from "../../../../firebase"
 import { collection, getDocs, doc, setDoc, addDoc } from "firebase/firestore";
 import { useState } from 'react';
 import { useEffect } from 'react';
