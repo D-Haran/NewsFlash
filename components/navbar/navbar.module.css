@@ -1,5 +1,5 @@
 .container {
-    background-color: #FCE7E7;
+    background-color: #01061e;
     width: 100%;
     z-index: 500;
     padding: 0 2rem;
@@ -10,7 +10,7 @@
     font-size: 1.5vh;
     display: grid;
     grid-template-columns: 1fr;
-    filter: drop-shadow(0px 4px 4px #FC7753);
+    filter: drop-shadow(0px 4px 4px #01061e);
     -ms-overflow-style: none;
     scrollbar-width: none; 
     overflow-y: scroll; 
