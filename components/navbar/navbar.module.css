@@ -1,0 +1,199 @@
+.container {
+    background-color: #FCE7E7;
+    width: 100%;
+    z-index: 500;
+    padding: 0 2rem;
+    padding: 1.5%;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+    justify-content: center;
+    font-size: 1.5vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    filter: drop-shadow(0px 4px 4px #FC7753);
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+    overflow-y: scroll; 
+}
+
+.container::-webkit-scrollbar {
+    display: none; 
+}
+
+.wrapper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+  }
+
+.search {
+    background-color: #6D6767;
+    border-radius: 4%;
+        height: 3vh;
+        margin: auto;
+        width: 100%;
+        top: 50%;
+    width: 50%;
+    text-align: center;
+    color: #fff;
+}
+
+.search::placeholder {
+    font-size: 1.6vh;
+    color: #fff;
+}
+
+.loginHeader {
+    margin-top: 13vh;
+    margin-bottom: 7vh;
+    text-align: center;
+}
+
+
+.loginContainer {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    width: 50%;
+    margin: auto;
+}
+
+.loginLabels {
+    display: grid;
+    margin-top: 2vh;
+    margin-bottom: 3vh;
+}
+
+.loginForm {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 9vh;
+    justify-content: space-between;
+    filter: drop-shadow(0px 4px 4px #FC7753);
+    text-align: center;
+    border-radius: 3vw;
+}
+
+.loginSubmit {
+    display: inline-block;
+    margin-top: 4vh;
+    width: 100%;
+    background-color: rgba(206, 101, 15, 0.15);
+    color: #fff;
+    font-size: 2.5vh;
+    border-radius: 0.5vw;
+    padding: 3vh;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+
+.signUpContainer {
+    display: grid;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.signUpForm {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    margin: auto;
+    width: 70%;
+    margin-bottom: 9vh;
+    justify-content: space-between;
+    filter: drop-shadow(0px 4px 4px #FC7753);
+    text-align: center;
+    border-radius: 3vw;
+}
+
+.SignUpUsername {
+    width: 30vw;
+}
+
+.signUpLabels {
+    padding-top: 2vh;
+}
+
+.searchWrapper {
+    margin: auto;
+    top: 50%;
+}
+
+.SignUpSubmit {
+    display: inline-block;
+    margin-top: 4vh;
+    width: 100%;
+    background-color: rgba(206, 101, 15, 0.15);
+    color: #fff;
+    font-size: 2.5vh;
+    border-radius: 0.5vw;
+    padding: 3vh;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+.profileIcon {
+    filter: drop-shadow(0px 4px 4px #FC7753);
+    layout:responsive;
+    objectFit:contain;
+}
+.navContainer {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: 1fr 5fr 1fr;
+    height: 3.3vh;
+}
+
+.categoriesWrapper {
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.navCategories {
+    display: flex;
+    border-bottom-left-radius: 6vh;
+    border-bottom-right-radius: 6vh;
+    justify-content: center;
+    background: #6D6767;
+    z-index: 1;
+}
+
+.hr {
+    border: 0.1vw solid #FC7753;
+    border-radius: 3px;
+}
+
+.category {
+    font-size: 3.5vh;
+    cursor: pointer;
+    color: #fff;
+    padding: 0.5vw 3.6vw;
+}
+
+.profileDropDown {
+    z-index: 99;
+    position: absolute;
+    top: 10vh;
+    height: max-content;
+    width: max-content;
+    right: 7vw;
+    border-radius: 1.1vw;
+    background: rgba( 252, 119, 83, 0.65 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.47 );
+    backdrop-filter: blur( 11.5px );
+    -webkit-backdrop-filter: blur( 11.5px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.dropDownText {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 2vh;
+    cursor: pointer;
+}

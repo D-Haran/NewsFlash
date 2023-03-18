@@ -1,0 +1,14 @@
+.container {
+    text-align: center;
+}
+
+.form {
+    display: grid;
+    width: fit-content;
+    text-align: center;
+    justify-content: center;
+}
+
+.selectMenu {
+    color: black;
+}
