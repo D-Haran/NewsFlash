@@ -95,15 +95,15 @@ useEffect(() => {
       }
           {isLoggedIn &&
             <Fragment>
-          <a href="/today" className={styles.card}>
+          <Link href="/today" className={styles.card}>
             <h2>Morning Announcements &rarr;</h2>
             <p>{"Check out the today's morning announcements"}</p>
-          </a>
+          </Link>
 
-          <a href="/calendar" className={styles.card}>
+          <Link href="/calendar" className={styles.card}>
             <h2>Past Announcements &rarr;</h2>
             <p>{"Check out the past announcements"}</p>
-          </a>
+          </Link>
           
             
             <div className={styles.card} onClick={(e) => {signOut(auth).then(function() {
@@ -119,10 +119,10 @@ useEffect(() => {
           </div>
           {
             isTeacher &&
-            <a href="/createAnnouncement" className={styles.card}>
+            <Link href="/createAnnouncement" className={styles.card}>
           <h2>Create Announcement &rarr;</h2>
           <p>Create a new announcement in {schoolName}</p>
-        </a>
+        </Link>
           }
           
             </Fragment>
@@ -132,7 +132,7 @@ useEffect(() => {
       </main>
 
       <footer className={styles.footer}>
-        <a
+        <Link
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
@@ -141,7 +141,7 @@ useEffect(() => {
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
-        </a>
+        </Link>
       </footer>
     </div>
   )
