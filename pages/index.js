@@ -133,14 +133,14 @@ useEffect(() => {
       </main>
 
       <footer className={styles.footer}>
+      
         <Link
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/D-Haran/"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Powered by{' '}
+        >Made by 
+          Derrick Ratnaharan
           <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </Link>
       </footer>
