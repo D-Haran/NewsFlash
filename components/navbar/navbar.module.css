@@ -10,7 +10,7 @@
     font-size: 1.5vh;
     display: grid;
     grid-template-columns: 1fr;
-    filter: drop-shadow(0px 4px 4px #01061e);
+    filter: drop-shadow(0px 4px 4px #53bbfc);
     -ms-overflow-style: none;
     scrollbar-width: none; 
     overflow-y: scroll; 
