@@ -2,7 +2,10 @@ import styles from './navbar.module.css';
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router';
-import {useState} from 'react'
+import {auth, db} from '../../firebase'
+import {useState, useContext, useEffect, Fragment} from 'react'
+import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
+import {signOut, onAuthStateChanged} from 'firebase/auth'
 
 const Navbar = () => {
     const router = useRouter()
@@ -11,55 +14,53 @@ const Navbar = () => {
     const [username, setUsername] = useState('Test User')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [userId, setUserId] = useState('')
     // const [samePass, setSamePass] = useState(false)
 
     const handleProfileClick = () => {
         setProfileClicked(!profileClicked)
     }
-
-    const handleLoginClick = () => {
-        setLoginModal(true) 
-        setProfileClicked(false)
-    }
-
-    const handleRegisterClick = () => {
-        setRegisterModal(true) 
-        setProfileClicked(false)
-    }
-
-    const handleSubmitLogin = (event) => {
-        event.preventDefault()
-        const email = localStorage.getItem('user')
-        const pass = document.getElementById('password').value
-        setUsername(email)
-        setEmail(email)
-        setPassword(pass)
-        setIsLoggedIn(true)
-        setLoginModal(false)
-        console.log(email, pass)
-    }
-    const handleSubmitSignUp = (event) => {
-        event.preventDefault()
-        const username = document.getElementById('username').value
-        const email = document.getElementById('email').value
-        const pass = document.getElementById('password').value
-        setUsername(username)
-        setEmail(email)
-        setPassword(pass)
-        setRegisterModal(false)
-        setIsLoggedIn(true)
-        console.log(email, pass, username)
-    }
-
-    const validatePassword = () => {
-        const pass = document.getElementById('password')
-        const confirmPass = document.getElementById('confirmPassword')
-            if(pass.value != confirmPass.value) {
-              confirmPass.setCustomValidity("Passwords Don't Match");
-            } else {
-              confirmPass.setCustomValidity('');
-            }
+    const fetchUser = () => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setIsLoggedIn(true)
+          
+          const fetch = async() => {
+            try{
+                setUserId(user.uid)
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+    
+                if (docSnap.exists()) {
+                  console.log("Document data:", docSnap.data());
+                } else {
+                  console.log("No such document!");
+                }
+                } catch {
+    
+                }
           }
+          fetch()}
+        });
+        
+        
+    }
+    
+      console.log(auth)
+      useEffect(() => {
+        fetchUser()
+      }, [])
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+                if (user) {
+                setIsLoggedIn(true)
+                setUsername(localStorage.getItem("displayName"))
+                } else {
+                    setIsLoggedIn(false)
+                }
+            });
+    }, [auth])
+    
 
   return (
     <div>
@@ -78,10 +79,17 @@ const Navbar = () => {
             {
                 isLoggedIn &&
                 <div>
-                    <Link href={`/profiles/${username}`}>
+                    <Link href={`/profiles/${userId}`}>
                         <p className={styles.dropDownText}>{username}</p>
                     </Link>
-                    <p className={styles.dropDownText}>Sign Out</p>
+                    <p className={styles.dropDownText} onClick={(e) => {signOut(auth).then(function() {
+                        e.preventDefault()
+                        console.log('Signed Out');
+                        localStorage.removeItem("displayName")
+                        router.reload()
+                      }, function(error) {
+                        console.error('Sign Out Error', error);
+                      });}}>Sign Out</p>
                 </div>
             }
             {

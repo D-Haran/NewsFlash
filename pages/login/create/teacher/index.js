@@ -24,37 +24,58 @@ const Teacher = () => {
             })
        
     }
+
+    const joinSchool = (() => {
+
+    })
     const makeNewSchool = async () => {
       const collectionName = abbrev + "_" + randomId
       const userName = localStorage.getItem("displayName").replace(/\s+/g, '') + "_" + makeid(5)
       const userId = auth.lastNotifiedUid
-        await setDoc(doc(db, "schools", collectionName), {
-          label: schoolName,
-          value: randomId
+      if (selectedOption.label == "Create a new School...") {
+          await setDoc(doc(db, "schools", collectionName), {
+            label: schoolName,
+            value: randomId,
+            abbreviated: abbrev,
+          })
+          await setDoc(doc(db, 'users', userId), {
+            name: localStorage.getItem("displayName"),
+            role: 'teacher',
+            school_id: randomId,
+            school_name: schoolName,
+            school_abbreviated: abbrev,
+            dateAdded: Date().toLocaleString()
         })
+          await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
+            data: 'Hello there World',
+        })
+          await addDoc(collection(db, 'schools', collectionName, 'students'), {
+            name: 'nothing yet',
+            dateAdded: Date().toLocaleString()
+        })
+          await addDoc(collection(db, 'schools', collectionName, 'teachers'), {
+            name: localStorage.getItem("displayName"),
+            dateAdded: Date().toLocaleString()
+        })
+          await setDoc(doc(db, 'schools', collectionName, 'teachers', userName), {
+            name: localStorage.getItem("displayName"),
+            dateAdded: Date().toLocaleString()
+        })
+      }
+      else {
         await setDoc(doc(db, 'users', userId), {
           name: localStorage.getItem("displayName"),
           role: 'teacher',
-          school_id: randomId,
-          school_name: schoolName,
-          school_abbreviated: abbrev,
+          school_id: selectedOption.id,
+          school_name: selectedOption.label,
+          school_abbreviated: selectedOption.abbreviated,
           dateAdded: Date().toLocaleString()
       })
-        await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
-          data: 'Hello there World',
-      })
-        await addDoc(collection(db, 'schools', collectionName, 'students'), {
-          name: 'nothing yet',
-          dateAdded: Date().toLocaleString()
-      })
-        await addDoc(collection(db, 'schools', collectionName, 'teachers'), {
-          name: localStorage.getItem("displayName"),
-          dateAdded: Date().toLocaleString()
-      })
-        await setDoc(doc(db, 'schools', collectionName, 'teachers', userName), {
-          name: localStorage.getItem("displayName"),
-          dateAdded: Date().toLocaleString()
-      })
+      await addDoc(collection(db, 'schools', selectedOption.id, 'teachers'), {
+        name: localStorage.getItem("displayName"),
+        dateAdded: Date().toLocaleString()
+    })
+      }
 
       router.push("/")
     }
@@ -80,7 +101,7 @@ const Teacher = () => {
         { value: 'createNew', label: 'Create a new School...' }, ...schools
       ];
     useEffect(() => {
-        console.log(selectedOption)
+        console.log(schools)
     }, [selectedOption])
   return (
     <div className={styles.container}>
