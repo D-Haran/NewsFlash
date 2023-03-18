@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styles from '../../styles/Home.module.css'
 import { useState } from 'react'
 import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo } from "firebase/auth"
-import {auth} from "../firebase"
+import {auth} from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useRouter } from 'next/router'
 import { createContext, useEffect, onAuthStateChanged } from 'react'
