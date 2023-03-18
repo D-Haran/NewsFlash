@@ -23,34 +23,35 @@ export default function Home() {
     setIsOpen(true);
   }
 
-  const fetchUser = async () => {
-    try{
-      const docRef = doc(db, "users", auth.lastNotifiedUid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      if (docSnap.data().role == "teacher") {
-        setIsTeacher(true)
-      }
+  const fetchUser = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true)
       
-      setSchoolName(docSnap.data().school_name)
-    } else {
-      console.log("No such document!");
-    }
-    } catch {
+      const fetch = async() => {
+        try{
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
 
-    }
+            if (docSnap.exists()) {
+              console.log("Document data:", docSnap.data());
+              if (docSnap.data().role == "teacher") {
+                setIsTeacher(true)
+              }
+              
+              setSchoolName(docSnap.data().school_name)
+            } else {
+              console.log("No such document!");
+            }
+            } catch {
+
+            }
+      }
+      fetch()}
+    });
+    
     
 }
-
-
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setIsLoggedIn(true)
-    }
-  });
 
   console.log(auth)
   useEffect(() => {
