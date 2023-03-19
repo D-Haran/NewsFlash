@@ -46,7 +46,7 @@ export default function Login() {
         <button className={styles.signInWithGoogleButton} onClick={login}>Login with Google</button>
         }
         {buttonclicked &&
-        <button className={styles.signInWithGoogleButton} disabled onClick={login}>Loading...</button>
+        <button className={styles.signInWithGoogleButton} disabled>Loading...</button>
         }
         
     </div>

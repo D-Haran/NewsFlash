@@ -86,26 +86,33 @@ const makeid = (length) => {
   return result
 }
   return (
-    <div>
-      <h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>
         Welcome, join the NewsFlash Community!
       </h1>
       <form className={styles.form} onSubmit={handleSubmit}>
       <Select
+      required
         className={styles.selectMenu}
         isSearchable
         defaultValue={selectedOption}
         onChange={setSelectedOption}
         options={options}
       />
-        <label>School Access Code</label>
-        <input type="code" onChange={(e) => {setSchoolCode(e.target.value)}}/>
+        <label className={styles.labels}>School Access Code</label>
+        <input required className={styles.inputs} onChange={(e) => {setSchoolCode(e.target.value)}}/>
         {
           wrongCode &&
           <p>School Code entered is incorrect. Please try again</p>
 
         }
-        <button type="submit">Register</button>
+        {loading &&
+          <button disabled className={styles.buttons}>loading...</button>
+        }
+        {!loading &&
+          <button className={styles.buttons} type="submit">Register</button>
+        }
+        
       </form>
     </div>
   )

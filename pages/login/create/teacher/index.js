@@ -16,6 +16,9 @@ const Teacher = () => {
     const [schoolName, setSchoolName] = useState("")
     const [abbrev, setAbbrev] = useState("")
     const [email, setEmail] = useState("")
+    const [wrong, setWrong] = useState("")
+    const [inputedCode, setInputedCode] = useState("")
+    const [loading, setLoading] = useState("")
     const fetchPost = async () => {
         await getDocs(collection(db, "schools"))
             .then((querySnapshot)=>{               
@@ -27,9 +30,7 @@ const Teacher = () => {
        
     }
 
-    const joinSchool = (() => {
-
-    })
+    
     useEffect(() => {
     onAuthStateChanged(auth, (user) => {
           if (user) {
@@ -38,10 +39,12 @@ const Teacher = () => {
     }, [auth])
     
     const makeNewSchool = async () => {
+      setLoading(true)
       const collectionName = abbrev + "_" + randomId
       const userName = localStorage.getItem("displayName").replace(/\s+/g, '') + "_" + makeid(5)
       const userId = auth.lastNotifiedUid
-      if (selectedOption.label == "Create a new School...") {
+      try {
+        if (selectedOption.label == "Create a new School...") {
           await setDoc(doc(db, "schools", collectionName), {
             label: schoolName,
             value: randomId,
@@ -76,7 +79,9 @@ const Teacher = () => {
         })
       }
       else {
-        await setDoc(doc(db, 'users', userId), {
+        if (inputedCode == selectedOption.value) {
+          setWrong(false)
+          await setDoc(doc(db, 'users', userId), {
           name: localStorage.getItem("displayName"),
           email: email,
           role: 'student',
@@ -95,10 +100,18 @@ const Teacher = () => {
           school_name: selectedOption.label,
           school_abbreviated: selectedOption.abbreviated,
           dateAdded: Date().toLocaleString()
+          
     })
+    
+    router.push("/")
+      } else {
+        setWrong(true)
+        setLoading(false)
       }
-
-      router.push("/")
+        }
+      } catch {
+        setLoading(false)
+      }
     }
 
     useEffect(() => {
@@ -154,8 +167,31 @@ const Teacher = () => {
     }
         </Fragment>
       }
+
+      {selectedOption &&
+        <Fragment>
+        {selectedOption.value !== "createNew" &&
+      <Fragment>
+        <label className={styles.labels}>School Code</label>
+          <input className={styles.inputs} onChange={(e) => {setInputedCode(e.target.value)}} />
+      </Fragment>
       
+    }
+        </Fragment>
+      
+      }
+      
+      {
+        wrong &&
+        <p className={styles.wrong}>School code is incorrect. Please try again</p>
+      }
+      {loading &&
+        <button disabled className={styles.buttons}>loading...</button>
+      }
+      {!loading &&
         <button className={styles.buttons} type="submit">Register</button>
+      }
+        
       </form>
     </div>
   )

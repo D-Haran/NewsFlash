@@ -29,6 +29,7 @@ const CreateAnnouncement = () => {
     const [taskAdded, setTaskAdded] = useState(null)
     const [completeSchoolName, setCompleteSchoolName] = useState("")
     const [notesAdded, setNotesAdded] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -82,7 +83,9 @@ const checkAnnouncementExist = async(complete) => {
 
     const releaseAnnouncement = async(e) => {
         e.preventDefault()
-        const dateNow = new Date()
+        setLoading(true)
+        try {
+            const dateNow = new Date()
         var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
         await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
             notes: notes,
@@ -90,6 +93,10 @@ const checkAnnouncementExist = async(complete) => {
         }).then(
             setReleased(true)
         ).then(router.replace("/"))
+        } catch {
+            setLoading(false)
+        }
+        
     }
 
     useEffect(() => {
@@ -162,7 +169,13 @@ const checkAnnouncementExist = async(complete) => {
         )
     })
 }
-<button className={styles.createAnnouncement} onClick={releaseAnnouncement}>Release Announcements</button>
+{
+    loading &&
+    <button disabled className={styles.createAnnouncement}>Loading...</button>
+}
+{!loading &&
+    <button className={styles.createAnnouncement} onClick={releaseAnnouncement}>Release Announcements</button>
+}
 </form>}
 
 {

@@ -12,6 +12,7 @@ const TeacherRequests = () => {
     var requests = []
     const [allRequests, setAllRequests] = useState([])
     const [userId, setUserId] = useState("")
+    const [loading, setLoading] = useState(false)
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
           if (user) {
@@ -54,6 +55,7 @@ const TeacherRequests = () => {
   }, [])
 
   const handleApprove = (id, idx, name, email) => {
+    setLoading(true)
     onAuthStateChanged(auth, (user) => {
         if (user) {
         const approve = async() => {
@@ -85,9 +87,11 @@ const TeacherRequests = () => {
 
                 requests.splice(idx, 1)
                 setAllRequests(requests)
+                setLoading(false)
                 }
               } else {
                 console.log("No such document!");
+                setLoading(false)
               }
         }
         approve()}
@@ -95,6 +99,7 @@ const TeacherRequests = () => {
   }
 
   const handleDeny = (id, idx) => {
+    setLoading(true)
     onAuthStateChanged(auth, (user) => {
         if (user) {
         const deny = async() => {
@@ -109,8 +114,10 @@ const TeacherRequests = () => {
                 requests.splice(idx, 1)
                 setAllRequests(requests)
                 }
+                setLoading(false)
               } else {
                 console.log("No such document!");
+                setLoading(false)
               }
         }
         deny()}
@@ -128,10 +135,19 @@ const TeacherRequests = () => {
                 if (!item.test) {
                     return (
                     <div key={idx} className={styles.card}>
-                    <div>
-                        <button className={styles.approve} onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
-                        <button className={styles.deny} onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
-                    </div>
+                    {!loading &&
+                        <div>
+                            <button className={styles.approve} onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
+                            <button className={styles.deny} onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
+                        </div>
+                    }
+                    {loading &&
+                        <div>
+                            <button diabled className={styles.approve} >Approve</button>
+                            <button disabled className={styles.deny}>Deny</button>
+                        </div>
+                    }
+                    
                         {item.name}
                         <br />
                         {item.email}
