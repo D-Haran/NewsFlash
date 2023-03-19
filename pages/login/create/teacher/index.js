@@ -123,11 +123,11 @@ const Teacher = () => {
       ];
   return (
     <div className={styles.container}>
-    <h1>
-        You seem new! Welcome, join the NewsFlash Community!
+    <h1 className={styles.title}>
+        Welcome, join the NewsFlash Community!
       </h1>
       <form className={styles.form} onSubmit={(e) => {e.preventDefault();makeNewSchool()}}>
-        <label>Select School</label>
+        <label className={styles.labels}>Select School</label>
         <Select
         className={styles.selectMenu}
         isSearchable
@@ -139,23 +139,23 @@ const Teacher = () => {
         <Fragment>
         {selectedOption.value == "createNew" &&
         <div>
-            <h3>Generate Access Code</h3>
-            <input value={randomId} disabled/>
+            <h3 className={styles.labels}>Generate Access Code</h3>
+            <input className={styles.inputs} value={randomId} disabled/>
             <button onClick={(e) => {
               e.preventDefault();
               setRandomId(makeid(6))}}>Generate</button>
             <br />
-            <label>Name of School</label>
-            <input onChange={(e) => {setSchoolName(e.target.value); console.log(schoolName)}} />
+            <label className={styles.labels}>Name of School</label>
+            <input className={styles.inputs} onChange={(e) => {setSchoolName(e.target.value); console.log(schoolName)}} />
 
-            <label>Abbreviated Name</label>
-            <input onChange={(e) => {setAbbrev(e.target.value); console.log(abbrev)}} />
+            <label className={styles.labels}>Abbreviated Name</label>
+            <input className={styles.inputs} onChange={(e) => {setAbbrev(e.target.value); console.log(abbrev)}} />
         </div>
     }
         </Fragment>
       }
       
-        <button type="submit">Register</button>
+        <button className={styles.buttons} type="submit">Register</button>
       </form>
     </div>
   )

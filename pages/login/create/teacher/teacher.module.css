@@ -1,14 +1,66 @@
 .container {
-    text-align: center;
-}
-
-.form {
-    display: grid;
-    width: fit-content;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-}
-
-.selectMenu {
-    color: black;
-}
+    height: 100vh;
+    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+  }
+  
+  .title {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .labels {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .selectMenu {
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .inputs {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .buttons {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #031c98;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .buttons:hover {
+    background-color: #00ccff;
+    transform: translateY(-2px);
+  }
+  

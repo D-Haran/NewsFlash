@@ -54,7 +54,7 @@ const Navbar = () => {
       console.log(auth)
       useEffect(() => {
         fetchUser()
-      }, [])
+      })
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -87,7 +87,7 @@ const Navbar = () => {
                 isLoggedIn &&
                 <div>
                     <Link href={`/profiles/${userId}`}>
-                        <p className={styles.dropDownText}>{username}</p>
+                        <p className={styles.dropDownText}>{localStorage.getItem("displayName")}</p>
                     </Link>
                     <p className={styles.dropDownText} onClick={(e) => {signOut(auth).then(function() {
                         e.preventDefault()
