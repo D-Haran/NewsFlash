@@ -27,7 +27,7 @@
   }
 
 .search {
-    background-color: #6D6767;
+    background-color: #ececec;
     border-radius: 4%;
         height: 3vh;
         margin: auto;
@@ -35,12 +35,13 @@
         top: 50%;
     width: 50%;
     text-align: center;
-    color: #fff;
+    color: #505050;
+    border-radius: 10px;
 }
 
 .search::placeholder {
     font-size: 1.6vh;
-    color: #fff;
+    color: #494343;
 }
 
 .loginHeader {

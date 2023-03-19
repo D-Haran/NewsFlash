@@ -75,7 +75,7 @@ useEffect(() => {
         </div>
       <main className={styles.main}>  
             {docData &&
-                <div>
+                <div className={styles.cardsContainer}>
                     {
                         docData.notes.map((task, idx) => {
                             return(

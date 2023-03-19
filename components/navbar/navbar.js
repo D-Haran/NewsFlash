@@ -67,7 +67,7 @@ const Navbar = () => {
         <div className={styles.container}>
             <div className={styles.navContainer}>
                 <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NewsFlash Logo" width="50" height="50" objectFit='contain' layout='responsive' />    
-                    <input className={styles.search} placeholder="Search for Announcements" />
+                    <input disabled className={styles.search} placeholder="Search for Announcements" />
                 <Image className={styles.profileIcon} onClick={handleProfileClick} alt="Logo Icon" src="/static/profileIconOrange.png" width="50" height="50" objectFit='contain' layout='responsive' />
                 
             </div>
