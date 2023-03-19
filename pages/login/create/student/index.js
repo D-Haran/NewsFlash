@@ -15,6 +15,7 @@ const Student = () => {
   const [email, setEmail] = useState("")
   const [schoolCode, setSchoolCode] = useState("")
   const [wrongCode, setWrongCode] = useState(false)
+  const [loading, setLoading] = useState(false)
   const fetchPost = async () => {
     await getDocs(collection(db, "schools"))
         .then((querySnapshot)=>{               
@@ -46,6 +47,7 @@ const options = [
 
 const handleSubmit = async(e) => {
   e.preventDefault()
+  setLoading(true)
   if (schoolCode == selectedOption.value) {
     console.log("verified")
     const collectionName = selectedOption.id
@@ -65,10 +67,11 @@ const handleSubmit = async(e) => {
             dateAdded: Date().toLocaleString()
         })
       
-
+        setLoading(false)
       router.push("/")
   } else {
     setWrongCode(true)
+    setLoading(false)
   }
     
 
