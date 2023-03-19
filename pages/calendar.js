@@ -6,6 +6,9 @@ import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/fires
 import Modal from 'react-modal';
 import TaskAdded from '../components/task/taskAdded/taskAdded';
 import styles from '../styles/calendar.module.css'
+import 'react-calendar/dist/Calendar.css'
+
+
 
 const PastAnnouncements = () => {
   const [value, onChange] = useState(new Date());
@@ -33,6 +36,8 @@ const PastAnnouncements = () => {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
+      borderRadius: "12px",
+      textAlign: "center",
     },
   };
 
@@ -91,12 +96,13 @@ useEffect(() => {
 
 
   return (
-    <div>
+    <div className={styles.container}>
+    <div className={styles.main}>
       <Calendar 
-      
+      className={styles.calendar}
       onClickDay={(value, event) => {
         var date = JSON.stringify(value.getFullYear()+'.'+(value.getMonth()+1)+'.'+value.getDate()).replace("\"", "").replace("\"", "");
-        setClickedDayDate(value)     
+        setClickedDayDate(value.toDateString())     
         var nextDay = new Date(value);
         nextDay.setDate(value.getDate() + 1);   
         console.log(nextDay)       
@@ -112,15 +118,15 @@ useEffect(() => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <button onClick={closeModal}>close</button>
-      <div>{String(clickedDay)}</div>
+      <button onClick={closeModal}>&#10006;</button>
+      <div>{String(clickedDayDate)}</div>
       <form>
       <div className={styles.buttons}>
         <button onClick={(e) => {
           e.preventDefault()
           var nextDay = new Date(clickedDayDate);
           nextDay.setDate(nextDay.getDate() - 1);   
-          setClickedDayDate(nextDay) 
+          setClickedDayDate(nextDay.toDateString()) 
           setIsOpen(true)
           var date = JSON.stringify(nextDay.getFullYear()+'.'+(nextDay.getMonth()+1)+'.'+nextDay.getDate()).replace("\"", "").replace("\"", "");
           setClickedDay(date) 
@@ -130,7 +136,7 @@ useEffect(() => {
           e.preventDefault()
           var nextDay = new Date(clickedDayDate);
           nextDay.setDate(nextDay.getDate() + 1);   
-          setClickedDayDate(nextDay) 
+          setClickedDayDate(nextDay.toDateString()) 
           setIsOpen(true)
           var date = JSON.stringify(nextDay.getFullYear()+'.'+(nextDay.getMonth()+1)+'.'+nextDay.getDate()).replace("\"", "").replace("\"", "");
           setClickedDay(date) 
@@ -170,6 +176,7 @@ useEffect(() => {
         
       </form>
     </Modal>
+    </div>
     </div>
   )
 }

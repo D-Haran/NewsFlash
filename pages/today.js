@@ -12,6 +12,7 @@ const Today = () => {
     const [returned, setReturned] = useState(false)
     const [docData, setDocData] = useState(null)
     const [currentDate, setCurrentDate] = useState("")
+    const [displayDate, setDisplayDate] = useState("")
 
     const fetchUser = async () => {
         onAuthStateChanged(auth, (user) => {
@@ -48,7 +49,7 @@ const Today = () => {
         var nowDate = new Date(); 
         var date = new String(nowDate.getFullYear()+'.'+(nowDate.getMonth()+1)+'.'+nowDate.getDate());
         setCurrentDate(date)
-
+        setDisplayDate(nowDate.toDateString())
         const docRef = doc(db, 'schools', completeSchoolName, 'announcements', date);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -70,7 +71,7 @@ useEffect(() => {
     <div className={styles.container}>
     
         <div className={styles.title}>
-            <h1>Todays Morning Announcements:  {currentDate}</h1>
+            <h1>Todays Morning Announcements:  {displayDate}</h1>
         </div>
       <main className={styles.main}>  
             {docData &&

@@ -1,5 +1,5 @@
 import styles from './navbar.module.css';
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router';
 import {auth, db} from '../../firebase'
@@ -66,9 +66,9 @@ const Navbar = () => {
     <div>
         <div className={styles.container}>
             <div className={styles.navContainer}>
-                <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NoteShare Logo" width="40" height="40" />    
+                <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NewsFlash Logo" width="50" height="50" objectFit='contain' layout='responsive' />    
                     <input className={styles.search} placeholder="Search for Announcements" />
-                <Image className={styles.profileIcon} onClick={handleProfileClick} alt="Logo Icon" src="/static/profileIconOrange.png" width="40" height="40" />
+                <Image className={styles.profileIcon} onClick={handleProfileClick} alt="Logo Icon" src="/static/profileIconOrange.png" width="50" height="50" objectFit='contain' layout='responsive' />
                 
             </div>
             

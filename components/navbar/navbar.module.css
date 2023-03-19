@@ -136,8 +136,6 @@
 
 .profileIcon {
     filter: drop-shadow(0px 4px 4px #FC7753);
-    layout:responsive;
-    objectFit:contain;
 }
 .navContainer {
     display: grid;
