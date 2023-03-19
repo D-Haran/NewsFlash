@@ -69,6 +69,7 @@ const getAnnouncementToday = async(clickedDate) => {
       setAnnouncementBool(true)
         console.log("Today's Announcement:", docSnap.data());
         setDocData(docSnap.data())
+        Modal.setAppElement(el)
     } else {
         console.log("no announcement", completeSchoolName)
         setAnnouncementBool(false)
@@ -79,6 +80,9 @@ const getAnnouncementToday = async(clickedDate) => {
 
 }
 
+useEffect(() => {
+  Modal.setAppElement('body');
+}, [])
 
 useEffect(() => {
     fetchUser()
@@ -89,10 +93,13 @@ useEffect(() => {
   return (
     <div>
       <Calendar 
+      
       onClickDay={(value, event) => {
         var date = JSON.stringify(value.getFullYear()+'.'+(value.getMonth()+1)+'.'+value.getDate()).replace("\"", "").replace("\"", "");
-        console.log(date);
-        setClickedDayDate(value)
+        setClickedDayDate(value)     
+        var nextDay = new Date(value);
+        nextDay.setDate(value.getDate() + 1);   
+        console.log(nextDay)       
         setClickedDay(date); 
         setIsOpen(true)
         getAnnouncementToday(date)
@@ -109,8 +116,26 @@ useEffect(() => {
       <div>{String(clickedDay)}</div>
       <form>
       <div className={styles.buttons}>
-        <button>Prev. &larr;</button>
-        <button>Next &rarr;</button>
+        <button onClick={(e) => {
+          e.preventDefault()
+          var nextDay = new Date(clickedDayDate);
+          nextDay.setDate(nextDay.getDate() - 1);   
+          setClickedDayDate(nextDay) 
+          setIsOpen(true)
+          var date = JSON.stringify(nextDay.getFullYear()+'.'+(nextDay.getMonth()+1)+'.'+nextDay.getDate()).replace("\"", "").replace("\"", "");
+          setClickedDay(date) 
+          getAnnouncementToday(date) 
+        }}>Prev. &larr;</button>
+        <button onClick={(e) => {
+          e.preventDefault()
+          var nextDay = new Date(clickedDayDate);
+          nextDay.setDate(nextDay.getDate() + 1);   
+          setClickedDayDate(nextDay) 
+          setIsOpen(true)
+          var date = JSON.stringify(nextDay.getFullYear()+'.'+(nextDay.getMonth()+1)+'.'+nextDay.getDate()).replace("\"", "").replace("\"", "");
+          setClickedDay(date) 
+          getAnnouncementToday(date) 
+        }}>Next &rarr;</button>
       </div>
         
         {announcementBool && 

@@ -25,8 +25,10 @@ const TaskAdded = (props) => {
 
     const handleEdit = (e) => {
         e.preventDefault()
-        setCompleteNote(noteAdded => ({...noteAdded, title: title}))
-        setCompleteNote(noteAdded => ({...noteAdded, description: description}))
+        console.log(numbered)
+        console.log(completeNote[numbered].title)
+        completeNote[numbered].title = title
+        completeNote[numbered].description = description
         setEditting(false)
     }
 
@@ -71,7 +73,7 @@ const TaskAdded = (props) => {
                 <br />
                 <div classNames={styles.buttons}>
                     <button onClick={(e) => {e.preventDefault(); setEditting(false)}}>Cancel</button>
-                    <button className={styles.buttons}>Update</button>
+                    <button className={styles.buttons} onClick={handleEdit}>Update</button>
                 </div>
             </Fragment> 
         }
