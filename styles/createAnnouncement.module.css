@@ -1,5 +1,6 @@
 .container {
     padding: 0 2rem;
+    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
   }
 
   .error {
@@ -62,6 +63,57 @@
     line-height: 1.5;
     font-size: 1.5rem;
   }
+
+  .createClubForm {
+    border: #ffffff;
+    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+    margin-top: 1rem;
+    padding: 1.5%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .createTask {
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .inputs {
+    width: 60%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
+  .createClubButton {
+    width: 200px;
+    height: 40px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .textarea {
+    height: 150px;
+  }
   
   .code {
     background: #fafafa;
@@ -86,11 +138,12 @@
     text-align: left;
     color: inherit;
     text-decoration: none;
+    word-wrap: break-word;
     border: 1px solid #eaeaea;
     border-radius: 10px;
     transition: color 0.15s ease, border-color 0.15s ease;
     max-width: 50%;
-    min-width: 30%;
+    width: 30%;
     text-align: center;
   }
   
@@ -117,23 +170,30 @@
     margin-left: 0.5rem;
   }
   
-  @media (max-width: 600px) {
-    .grid {
-      width: 100%;
-      flex-direction: column;
-    }
+  .createAnnouncement:hover {
+    background-color: #009dff;
   }
-  
-  @media (prefers-color-scheme: dark) {
-    .card,
-    .footer {
-      border-color: #222;
-    }
-    .code {
-      background: #111;
-    }
-    .logo img {
-      filter: invert(1);
-    }
+  .createAnnouncement {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+
+  .createTask {
+    background-color: #3210ab;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
   }
   

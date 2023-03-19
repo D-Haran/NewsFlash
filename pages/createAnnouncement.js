@@ -121,12 +121,12 @@ const checkAnnouncementExist = async(complete) => {
     <div className={styles.container}>
 {    !released &&
     <form className={styles.main}>
-    <h2>Create an Announcement</h2>
-    <label>Announcement Title</label>
-    <input onChange={(e) => {setTitle(e.target.value)}} value={title} />
-    <label>Announcement Description</label>
-    <textarea onChange={(e) => {setDescription(e.target.value)}} value={description} />
-    <label>Associated Club</label>
+    <h2 className={styles.title}>Create an Announcement</h2>
+    <label className={styles.labels}>Announcement Title</label>
+    <input className={styles.inputs} onChange={(e) => {setTitle(e.target.value)}} value={title} />
+    <label className={styles.labels}>Announcement Description</label>
+    <textarea className={styles.inputs} onChange={(e) => {setDescription(e.target.value)}} value={description} />
+    <label className={styles.labels}>Associated Club</label>
     <Select
     className={styles.selectMenu}
     isSearchable
@@ -136,11 +136,11 @@ const checkAnnouncementExist = async(complete) => {
     />
     {
         createNewClub &&
-        <div>
-            <label>Club Name</label>
-            <input onChange={(e) => {setClubName(e.target.value)}} />
+        <div className={styles.createClubForm}>
+            <label className={styles.label}>Club Name</label>
+            <input className={styles.inputs} onChange={(e) => {setClubName(e.target.value)}} />
             
-            <button onClick={(e) => {
+            <button className={styles.createClubButton} onClick={(e) => {
                 e.preventDefault();
                 const id = Math.random()
                 setOptions(options.concat({value: id, label:clubName}))
@@ -151,7 +151,7 @@ const checkAnnouncementExist = async(complete) => {
     {confirmClub &&
         <h6 className={styles.error}>*Please Confirm an Associated Club*</h6>
     }
-    <button onClick={handleNewNote}>Create Task</button>
+    <button className={styles.createTask} onClick={handleNewNote}>Create Task</button>
     {
     notes.map((item, idx) => {
         return (
@@ -162,13 +162,13 @@ const checkAnnouncementExist = async(complete) => {
         )
     })
 }
-<button onClick={releaseAnnouncement}>Release Announcements</button>
+<button className={styles.createAnnouncement} onClick={releaseAnnouncement}>Release Announcements</button>
 </form>}
 
 {
     released &&
     <div className={styles.releasedContainer}>
-        <h2>Announcement Released</h2>
+        <h2 className={styles.announced}>Announcement Released</h2>
 
     </div>
 }

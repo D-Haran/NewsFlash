@@ -118,30 +118,33 @@ const TeacherRequests = () => {
   }
 
   return (
-    <div>
-    TeacherRequests
-    <div className={styles.cardContainer}>
-    {
-        allRequests.map((item, idx) => {
-            console.log(item.id)
-            if (!item.test) {
-                return (
-                <div key={idx} className={styles.card}>
-                <div>
-                    <button onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
-                    <button onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
-                </div>
-                    {item.name}
-                    <br />
-                    {item.email}
-                    </div> 
-                )
-            }
-            
-            
-        })
-    }
+    <div className={styles.container}>
+    <div className={styles.main}>
+        <h1 className={styles.title}>Teacher Requests</h1>
+        <div className={styles.cardContainer}>
+        {
+            allRequests.map((item, idx) => {
+                console.log(item.id)
+                if (!item.test) {
+                    return (
+                    <div key={idx} className={styles.card}>
+                    <div>
+                        <button className={styles.approve} onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
+                        <button className={styles.deny} onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
+                    </div>
+                        {item.name}
+                        <br />
+                        {item.email}
+                        </div> 
+                    )
+                }
+                
+                
+            })
+        }
+        </div>
     </div>
+    
     
     </div>
   )
