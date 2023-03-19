@@ -3,7 +3,7 @@ import Image from 'next/image'
 import {auth, db} from '../firebase'
 import {useState, useContext, useEffect, Fragment} from 'react'
 import styles from '../styles/Home.module.css'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, getDoc,getCountFromServer } from "firebase/firestore";
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {signOut, onAuthStateChanged} from 'firebase/auth'
@@ -18,6 +18,8 @@ export default function Home() {
   const [schoolName, setSchoolName] = useState("")
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [docData, setDocData] = useState(null);
+  const [teacherRequestLength, setTeacherRequestLength] = useState(0);
 
   function openModal() {
     setIsOpen(true);
@@ -35,17 +37,22 @@ export default function Home() {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
+              setDocData(docSnap.data())
               console.log("Document data:", docSnap.data());
               if (docSnap.data().role == "teacher") {
                 setIsTeacher(true)
+                const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests');
+                const snapshot = await getCountFromServer(collectionRef);
+                console.log("snapshot data", snapshot.data().count);
+                setTeacherRequestLength(snapshot.data().count - 1)
               }
               
               setSchoolName(docSnap.data().school_name)
             } else {
               console.log("No such document!");
             }
-            } catch {
-
+            } catch (err){
+              console.log(err)
             }
       }
       fetch()}
@@ -81,10 +88,14 @@ useEffect(() => {
         </h1>
 
         <p className={styles.description}>
-          For School/Business Purposes
+        {docData && <Fragment>{docData.school_name}</Fragment>}
+        {!docData &&
+          <Fragment>For School/Business Purposes</Fragment>
+        }
+          
         </p>
         {isLoggedIn &&
-      <p>Hello {displayName}</p>
+    <p>Hello <b>{displayName}</b> ({docData && <Fragment>{docData.role}{docData.waiting_approval && <Fragment> waiting for teacher approval</Fragment>}</Fragment> })</p>
       }
         
 
@@ -121,26 +132,29 @@ useEffect(() => {
           </div>
           {
             isTeacher &&
+            <Fragment>
             <Link href="/createAnnouncement" className={styles.card}>
           <h2>Create Announcement &rarr;</h2>
           <p>Create a new announcement in {schoolName}</p>
         </Link>
-          }
-          
+            <Link href="/teacherRequests" className={styles.card}>
+          <h2>Teacher Requests &rarr;</h2>
+          <p>You have <b>{teacherRequestLength}</b> teacher requests at the moment</p>
+        </Link>
             </Fragment>
-          
+            
+          }          
+            </Fragment>
         }
         </div>
       </main>
 
       <footer className={styles.footer}>
-      
         <Link
           href="https://github.com/D-Haran/"
           target="_blank"
           rel="noopener noreferrer"
-        >Made by 
-          Derrick Ratnaharan
+        >Made by Derrick Ratnaharan
           <span className={styles.logo}>
             <Image src={"/static/github.png"} width={"20"} height={"20"} />
           </span>

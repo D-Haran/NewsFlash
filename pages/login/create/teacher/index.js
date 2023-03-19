@@ -59,6 +59,9 @@ const Teacher = () => {
           await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
             data: 'Hello there World',
         })
+          await addDoc(collection(db, 'schools', collectionName, 'teacher_requests'), {
+            data: 'test',
+        })
           await addDoc(collection(db, 'schools', collectionName, 'students'), {
             name: 'nothing yet',
             dateAdded: Date().toLocaleString()
@@ -76,15 +79,22 @@ const Teacher = () => {
         await setDoc(doc(db, 'users', userId), {
           name: localStorage.getItem("displayName"),
           email: email,
+          role: 'student',
+          school_id: selectedOption.id.slice(-6),
+          school_name: selectedOption.label,
+          school_abbreviated: selectedOption.abbreviated,
+          dateAdded: Date().toLocaleString(),
+          waiting_approval: true
+      })
+      await setDoc(doc(db, 'schools', selectedOption.id, 'teacher_requests', userId), {
+          name: localStorage.getItem("displayName"),
+          email: email,
           role: 'teacher',
+          user_id: userId,
           school_id: selectedOption.id.slice(-6),
           school_name: selectedOption.label,
           school_abbreviated: selectedOption.abbreviated,
           dateAdded: Date().toLocaleString()
-      })
-      await addDoc(collection(db, 'schools', selectedOption.id, 'teachers'), {
-        name: localStorage.getItem("displayName"),
-        dateAdded: Date().toLocaleString()
     })
       }
 

@@ -68,9 +68,10 @@ const Navbar = () => {
     
 
   return (
-    <div>
+    <div>        
+    <LoadingBar color='#fffff' progress={70} height={4} waitingTime={500} onLoaderFinished={() => {setProgress(0)}} />
+
         <div className={styles.container}>
-        <LoadingBar color='#fffff' progress={progress} height={4} waitingTime={500} onLoaderFinished={() => {setProgress(0)}} />
             <div className={styles.navContainer}>
                 <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NewsFlash Logo" width="50" height="50" objectFit='contain' layout='responsive' />    
                     <input disabled className={styles.search} placeholder="Search for Announcements" />
