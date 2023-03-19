@@ -116,7 +116,7 @@ useEffect(() => {
           }, function(error) {
             console.error('Sign Out Error', error);
           });}}>
-            <h2>Log out &rarr;</h2>
+            <h2>&larr; Log out </h2>
             <p>{"Log out of google account"}</p>
           </div>
           {

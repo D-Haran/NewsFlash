@@ -6,6 +6,7 @@ import {auth, db} from '../../firebase'
 import {useState, useContext, useEffect, Fragment} from 'react'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import {signOut, onAuthStateChanged} from 'firebase/auth'
+import LoadingBar from 'react-top-loading-bar'
 
 const Navbar = () => {
     const router = useRouter()
@@ -15,7 +16,11 @@ const Navbar = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [userId, setUserId] = useState('')
-    // const [samePass, setSamePass] = useState(false)
+    const [progress, setProgress] = useState(0)
+    useEffect(() => {
+      router.events.on('routeChangeStart', () => {setProgress(20)})
+      router.events.on('routeChangeComplete', () => {setProgress(100)})
+    })
 
     const handleProfileClick = () => {
         setProfileClicked(!profileClicked)
@@ -65,6 +70,7 @@ const Navbar = () => {
   return (
     <div>
         <div className={styles.container}>
+        <LoadingBar color='#fffff' progress={progress} height={4} waitingTime={500} onLoaderFinished={() => {setProgress(0)}} />
             <div className={styles.navContainer}>
                 <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NewsFlash Logo" width="50" height="50" objectFit='contain' layout='responsive' />    
                     <input disabled className={styles.search} placeholder="Search for Announcements" />
