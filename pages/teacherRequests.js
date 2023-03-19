@@ -94,7 +94,7 @@ const TeacherRequests = () => {
       });
   }
 
-  const handleDeny = (id) => {
+  const handleDeny = (id, idx) => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
         const deny = async() => {
@@ -124,17 +124,20 @@ const TeacherRequests = () => {
     {
         allRequests.map((item, idx) => {
             console.log(item.id)
-            return (
-               <div key={idx} className={styles.card}>
-               <div>
-                <button onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
-                <button onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
-               </div>
-                {item.name}
-                <br />
-                {item.email}
-                </div> 
-            )
+            if (!item.test) {
+                return (
+                <div key={idx} className={styles.card}>
+                <div>
+                    <button onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
+                    <button onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
+                </div>
+                    {item.name}
+                    <br />
+                    {item.email}
+                    </div> 
+                )
+            }
+            
             
         })
     }

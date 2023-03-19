@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 import {auth, db} from '../../firebase'
 import {useState, useContext, useEffect, Fragment} from 'react'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc  } from "firebase/firestore";
-import {signOut, onAuthStateChanged, currentUser, deleteUser, getAuth} from 'firebase/auth'
+import {signOut, onAuthStateChanged, deleteUser, getAuth} from 'firebase/auth'
+import styles from "../../styles/user.module.css"
 
 const Users = () => {
     const router = useRouter()
@@ -11,6 +12,7 @@ const Users = () => {
     const [userNamePath, setUserNamePath] = useState(router.asPath.substring(10,))
     const [docData, setDocData] = useState(null)
     const [currentUsertest, setCurrentUsertest] = useState(null)
+    const [confirmed, setConfirmed] = useState(false)
     console.log(router.asPath.substring(10,));
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -38,22 +40,19 @@ const Users = () => {
     }
     
       useEffect(() => {
-        fetchUser()
-      }, [])
+        if (!docData) {
+          fetchUser()
+        }
+      }, [router])
 
-      const deleteUser = async() => {
+      const deletingUser = async(e) => {
+        e.preventDefault()
         try {
             if (currentUsertest) {
                 const docRef = doc(db, "users", userNamePath);
-                await deleteDoc(docRef).then(console.log("Deleted"))
-                .then(router.replace("/"))
-                .then(deleteUser(getAuth().currentUser))
-                .then(signOut(auth).then(function() {
-                    console.log('Signed Out');
-                    localStorage.removeItem("displayName")
-                  }, function(error) {
-                    console.error('Sign Out Error', error);
-                  }))
+                await deleteDoc(docRef)
+                console.log("Deleted")
+                deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
             }
             
         } catch (err){
@@ -61,20 +60,26 @@ const Users = () => {
         }
       }
   return (
-    <div>
+    <div className={styles.container}>
     {docData &&
         <Fragment>
-        <span>{docData.name}</span>
+        <span className={styles.name}>{docData.name}</span>
             <br />
-            <span>{docData.school_name}</span>
+            <span className={styles.details}>{docData.school_name}</span>
             <br />
-            <span>{docData.school_id}</span>
+            <span className={styles.details}>{docData.school_id}</span>
             <br />
-            <span>{docData.dateAdded}</span>
+            <span className={styles.details}>{docData.dateAdded}</span>
             <br />
-            <span>{docData.role}</span>
+            <span className={styles.details}>{docData.role}</span>
             <br />
-            <button onClick={deleteUser}>Delete Account</button>
+            {
+              !confirmed &&
+              <button className={styles.button} onClick={(e) => {e.preventDefault();setConfirmed(true)}}>Delete Account</button>
+            }
+            {confirmed &&
+            <button className={styles.buttons} onClick={deletingUser}>Delete Account</button>
+            }
         </Fragment>
         
     }

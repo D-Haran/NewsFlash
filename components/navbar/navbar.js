@@ -18,7 +18,7 @@ const Navbar = () => {
     const [userId, setUserId] = useState('')
     const [progress, setProgress] = useState(0)
     useEffect(() => {
-      router.events.on('routeChangeStart', () => {setProgress(20)})
+      router.events.on('routeChangeStart', () => {setProgress(20); setProfileClicked(false)})
       router.events.on('routeChangeComplete', () => {setProgress(100)})
     })
 
