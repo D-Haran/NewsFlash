@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/login.module.css'
 import { useState } from 'react'
 import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo } from "firebase/auth"
 import {auth} from "../../firebase"
@@ -38,13 +38,15 @@ export default function Login() {
         }
     }
     return (
-    <div>
-        Welcome!
+    <div className={styles.container}>
+    <h2 className={styles.title}>Welcome!
+    </h2>
+        
         {!buttonclicked &&
-        <button onClick={login}>Login with Google</button>
+        <button className={styles.signInWithGoogleButton} onClick={login}>Login with Google</button>
         }
         {buttonclicked &&
-        <button disabled onClick={login}>Loading...</button>
+        <button className={styles.signInWithGoogleButton} disabled onClick={login}>Loading...</button>
         }
         
     </div>

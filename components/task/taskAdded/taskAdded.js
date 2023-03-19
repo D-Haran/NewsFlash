@@ -39,7 +39,7 @@ const TaskAdded = (props) => {
         {viewing &&
             <Fragment>
                 <div onClick={() => {deleteTask(individualNoteAdded.id)}} className={styles.exit}>
-                    <p>X</p>
+                    <p className={styles.ps}>X</p>
                 </div>
                 <div className={styles.edit}>
                     <div onClick={setEditting} className={"fa fa-edit"}>
@@ -51,27 +51,27 @@ const TaskAdded = (props) => {
         
         {!editting &&
             <Fragment>
-                <h6>{noteAdded.club.label}</h6>
-                <p><b>{noteAdded.title}</b></p>
+                <h6 className={styles.hsix}>{noteAdded.club.label}</h6>
+                <p className={styles.ps}><b>{noteAdded.title}</b></p>
                 <br />
-                <p>{noteAdded.description}</p>
+                <p className={styles.ps}>{noteAdded.description}</p>
             </Fragment> 
         }
         {editting &&
             <Fragment>
-                <label>Club:</label>
-                <h6>{noteAdded.club.label}</h6>
+                <label className={styles.labels}>Club:</label>
+                <h6 className={styles.hsix}>{noteAdded.club.label}</h6>
                 <br />
-                <label>Title:</label>
-                <input defaultValue={noteAdded.title} onChange={(e) => {setTitle(e.target.value)}} />
+                <label className={styles.labels}>Title:</label>
+                <input defaultValue={noteAdded.title} className={styles.inputs} onChange={(e) => {setTitle(e.target.value)}} />
                 <br />
-                <label>Description:</label>
+                <label className={styles.labels}>Description:</label>
                 <br />
-                <textarea onChange={(e) => {setDescription(e.target.value)}} defaultValue={notes.description}/>
+                <textarea onChange={(e) => {setDescription(e.target.value)}} className={styles.inputs} defaultValue={notes.description}/>
                 <br />
                 <div classNames={styles.buttons}>
-                    <button onClick={(e) => {e.preventDefault()}}>Cancel</button>
-                    <button>Update</button>
+                    <button onClick={(e) => {e.preventDefault(); setEditting(false)}}>Cancel</button>
+                    <button className={styles.buttons}>Update</button>
                 </div>
             </Fragment> 
         }

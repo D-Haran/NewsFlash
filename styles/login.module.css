@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #ff00ff, #00ffff);
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 40px;
+  }
+  
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #2F80ED;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .form label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333333;
+  }
+  
+  .form input {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .signInWithGoogleButton {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+    color: #FFFFFF;
+    background-color: #2F80ED;
+    cursor: pointer;
+  }
+  
+  .signInWithGoogleButton:hover {
+    background-color: #256FCC;
+  }
+  
+  .signInWithGoogleButton:disabled {
+    background-color: #A7B6C2;
+    cursor: not-allowed;
+  }
+  

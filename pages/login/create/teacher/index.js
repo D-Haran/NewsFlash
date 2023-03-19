@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import styles from './teacher.module.css'
 import Select from 'react-select'
 import {auth, db} from "../../../../firebase"
+import {onAuthStateChanged} from 'firebase/auth'
 import { collection, getDocs, doc, setDoc, addDoc } from "firebase/firestore";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ const Teacher = () => {
     const [randomId, setRandomId] = useState("")
     const [schoolName, setSchoolName] = useState("")
     const [abbrev, setAbbrev] = useState("")
+    const [email, setEmail] = useState("")
     const fetchPost = async () => {
         await getDocs(collection(db, "schools"))
             .then((querySnapshot)=>{               
@@ -28,6 +30,13 @@ const Teacher = () => {
     const joinSchool = (() => {
 
     })
+    useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setEmail(user.email)
+          }})
+    }, [auth])
+    
     const makeNewSchool = async () => {
       const collectionName = abbrev + "_" + randomId
       const userName = localStorage.getItem("displayName").replace(/\s+/g, '') + "_" + makeid(5)
@@ -41,6 +50,7 @@ const Teacher = () => {
           await setDoc(doc(db, 'users', userId), {
             name: localStorage.getItem("displayName"),
             role: 'teacher',
+            email: email,
             school_id: randomId,
             school_name: schoolName,
             school_abbreviated: abbrev,
@@ -65,8 +75,9 @@ const Teacher = () => {
       else {
         await setDoc(doc(db, 'users', userId), {
           name: localStorage.getItem("displayName"),
+          email: email,
           role: 'teacher',
-          school_id: selectedOption.id,
+          school_id: selectedOption.id.slice(-6),
           school_name: selectedOption.label,
           school_abbreviated: selectedOption.abbreviated,
           dateAdded: Date().toLocaleString()
@@ -100,9 +111,6 @@ const Teacher = () => {
     const options = [
         { value: 'createNew', label: 'Create a new School...' }, ...schools
       ];
-    useEffect(() => {
-        console.log(schools)
-    }, [selectedOption])
   return (
     <div className={styles.container}>
     <h1>

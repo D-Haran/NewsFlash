@@ -95,8 +95,7 @@ const Navbar = () => {
             {
                 isLoggedIn === false &&
                 <div>
-                    <div onClick={handleLoginClick}><p className={styles.dropDownText}>Login</p></div>
-                    <div onClick={handleRegisterClick}><p className={styles.dropDownText}>Register</p></div>                    
+                    <div onClick={()=>{router.push("/login"); setProfileClicked(false)}}><p className={styles.dropDownText}>Login</p></div>                
                 </div>
 
             }

@@ -31,6 +31,7 @@ export default function Home() {
       const fetch = async() => {
         try{
             const docRef = doc(db, "users", user.uid);
+            console.log({user})
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
@@ -141,6 +142,7 @@ useEffect(() => {
         >Made by 
           Derrick Ratnaharan
           <span className={styles.logo}>
+            <Image src={"/static/github.png"} width={"20"} height={"20"} />
           </span>
         </Link>
       </footer>

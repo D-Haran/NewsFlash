@@ -1,14 +1,71 @@
 .container {
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     position: relative;
-}
-
-.exit {
+    transition: all 0.2s ease;
+  }
+  
+  .container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .exit {
     position: absolute;
-    right: 10px;
-    top: -20px;
+    top: 0;
+    right: 0;
+    padding: 5px;
     cursor: pointer;
-}
-
-.edit {
+    font-size: 20px;
+  }
+  
+  .edit {
+    position: absolute;
     cursor: pointer;
-}
+    top: 0;
+    right: 40px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  .labels {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .inputs {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .buttons button {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-family: inherit;
+    font-size: inherit;
+    transition: all 0.2s ease;
+  }
+  
+  .buttons button:hover {
+    background-color: #3e8e41;
+  }
+  

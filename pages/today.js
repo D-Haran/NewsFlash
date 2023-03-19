@@ -68,23 +68,25 @@ useEffect(() => {
     
   return (
     <div className={styles.container}>
-    <div className={styles.title}>
-        <h1>Todays Morning Announcements:  {currentDate}</h1>
-    </div>
-        {docData &&
-            <div>
-                {
-                    docData.notes.map((task, idx) => {
-                        return(
-                            <div key={idx} className={styles.card}>
-                                <TaskAdded view={false} notesAdded={task} completeNote={docData.notes} />
-                            </div>
-                            
-                    )
-                })
-                }
-            </div>
-        }
+    
+        <div className={styles.title}>
+            <h1>Todays Morning Announcements:  {currentDate}</h1>
+        </div>
+      <main className={styles.main}>  
+            {docData &&
+                <div>
+                    {
+                        docData.notes.map((task, idx) => {
+                            return(
+                                <div key={idx} className={styles.card}>
+                                    <TaskAdded view={false} notesAdded={task} completeNote={docData.notes} />
+                                </div>
+                                
+                        )
+                    })
+                    }
+                </div>
+            }</main>
     </div>
   )
 }

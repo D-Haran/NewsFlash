@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
 .container {
   padding: 0 2rem;
+  background: linear-gradient(to bottom right, #00ffff, #ff00ff);
 }
+
+
 
 .main {
   min-height: 100vh;
@@ -19,7 +25,20 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  
 }
+
+.logo {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease-out;
+}
+
+.logo:hover {
+  transform: rotate(360deg);
+}
+
 
 .footer a {
   display: flex;
@@ -98,6 +117,12 @@
   font-size: 1.5rem;
 }
 
+.card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+
 .card p {
   margin: 0;
   font-size: 1.25rem;
@@ -119,10 +144,10 @@
 @media (prefers-color-scheme: dark) {
   .card,
   .footer {
-    border-color: #222;
+    border-color: #ffffff;
   }
   .code {
-    background: #111;
+    background: #ffffff;
   }
   .logo img {
     filter: invert(1);
