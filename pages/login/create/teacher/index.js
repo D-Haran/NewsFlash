@@ -114,7 +114,7 @@ const Teacher = () => {
   return (
     <div className={styles.container}>
     <h1>
-        Welcome, join the NewsFlash Community!
+        You seem new! Welcome, join the NewsFlash Community!
       </h1>
       <form className={styles.form} onSubmit={(e) => {e.preventDefault();makeNewSchool()}}>
         <label>Select School</label>
