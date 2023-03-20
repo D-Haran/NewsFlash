@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from '../../styles/login.module.css'
 import { useState } from 'react'
-import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo, onAuthStateChanged } from "firebase/auth"
+import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo, onAuthStateChanged, getAuth } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/router'
@@ -28,14 +28,25 @@ export default function Login() {
                 localStorage.removeItem("displayName")
                 localStorage.setItem("displayName", result.user.displayName)
             }
-            const isFirstLogin = getAdditionalUserInfo(result).isNewUser
-            console.log(isFirstLogin)
-            if (isFirstLogin) {
-                router.replace("/login/create")
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const fetch = async() => {
+                    const docRef = doc(db, "users", user.uid);
+                    const docSnap = await getDoc(docRef);
+                
+                    if (docSnap.exists()) {
+                        router.push("/")
+                        
+                    } else {
+                    router.replace("/login/create")
+                    }
+                } 
+                fetch()
+                // ...
             }
-            else{
-                router.push("/")
-            }
+});
+            
             
         }
     }
