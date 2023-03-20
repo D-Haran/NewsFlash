@@ -79,6 +79,7 @@ const Teacher = () => {
             name: localStorage.getItem("displayName"),
             dateAdded: Date().toLocaleString()
         })
+        router.push("/")
       }
       else {
         if (inputedCode == selectedOption.value) {

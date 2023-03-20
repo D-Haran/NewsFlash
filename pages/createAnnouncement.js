@@ -167,7 +167,7 @@ const checkAnnouncementExist = async(complete) => {
     notes.map((item, idx) => {
         return (
             <div key={idx} className={styles.card}>
-                <TaskAdded view={true} note={item} number={idx} setCompleteNotes={setNotes} completeNotes={notes} notesAdded={item} setNotesAdded={setTaskAdded} setNote={setNotes}/>
+                <TaskAdded view={true} note={item} number={idx} completeNotes={notes} notesAdded={item} setNotesAdded={setTaskAdded} setNote={setNotes}/>
             </div>
             
         )
