@@ -11,29 +11,7 @@ import {auth, db} from "../../../firebase"
 
 const Create = () => {
   const router = useRouter()
-  const fetchUser = async () => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          console.log(user.uid)
-        }
-            const fetch = async() => {
-            const docRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-        
-            if (docSnap.exists()) {
-                router.replace("/")
-            } else {
-                console.log("No such document!");
-            }
-      }
-      fetch()
 
-        });
-}
-
-useEffect(() => {
-  fetchUser()
-}, [])
   return (
     <div className={styles.container}>
     <h2 clssName={styles.title}>

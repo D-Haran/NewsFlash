@@ -3,7 +3,7 @@ import {auth, db} from '../firebase'
 import { useEffect, useState } from 'react'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
 import Task from "../components/task/task";
-import {onAuthStateChanged} from 'firebase/auth'
+import {onAuthStateChanged, deleteUser, getAuth} from 'firebase/auth'
 import styles from '../styles/today.module.css'
 import { useRouter } from "next/router";
 
@@ -32,6 +32,7 @@ const Today = () => {
                     
                 } else {
                     console.log("No such document!");
+                    deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
                     router.replace("/login")
                 }
           }

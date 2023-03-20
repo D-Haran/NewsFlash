@@ -20,29 +20,6 @@ const Teacher = () => {
     const [inputedCode, setInputedCode] = useState("")
     const [loading, setLoading] = useState("")
 
-    const fetchUser = async () => {
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-            console.log(user.uid)
-          }
-              const fetch = async() => {
-              const docRef = doc(db, "users", user.uid);
-              const docSnap = await getDoc(docRef);
-          
-              if (docSnap.exists()) {
-                  router.replace("/")
-              } else {
-                  console.log("No such document!");
-              }
-        }
-        fetch()
-  
-          });
-  }
-  
-  useEffect(() => {
-    fetchUser()
-  }, [])
 
     const fetchPost = async () => {
         await getDocs(collection(db, "schools"))
