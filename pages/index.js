@@ -49,6 +49,7 @@ export default function Home() {
               
               setSchoolName(docSnap.data().school_name)
             } else {
+              router.replace("/login")
               console.log("No such document!");
             }
             } catch (err){

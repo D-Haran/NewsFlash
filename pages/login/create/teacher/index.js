@@ -3,7 +3,7 @@ import styles from './teacher.module.css'
 import Select from 'react-select'
 import {auth, db} from "../../../../firebase"
 import {onAuthStateChanged} from 'firebase/auth'
-import { collection, getDocs, doc, setDoc, addDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc , getDoc} from "firebase/firestore";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -19,6 +19,31 @@ const Teacher = () => {
     const [wrong, setWrong] = useState("")
     const [inputedCode, setInputedCode] = useState("")
     const [loading, setLoading] = useState("")
+
+    const fetchUser = async () => {
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+            console.log(user.uid)
+          }
+              const fetch = async() => {
+              const docRef = doc(db, "users", user.uid);
+              const docSnap = await getDoc(docRef);
+          
+              if (docSnap.exists()) {
+                  router.replace("/")
+              } else {
+                  console.log("No such document!");
+              }
+        }
+        fetch()
+  
+          });
+  }
+  
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
     const fetchPost = async () => {
         await getDocs(collection(db, "schools"))
             .then((querySnapshot)=>{               

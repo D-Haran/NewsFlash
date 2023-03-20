@@ -27,6 +27,16 @@
   border-radius: 10px;
 }
 
+.icons {
+  max-height: 50px;
+}
+
+@media (max-width: 680px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   display: flex;
   flex-direction: column;

@@ -7,10 +7,12 @@ import Modal from 'react-modal';
 import TaskAdded from '../components/task/taskAdded/taskAdded';
 import styles from '../styles/calendar.module.css'
 import 'react-calendar/dist/Calendar.css'
+import { useRouter } from 'next/router';
 
 
 
 const PastAnnouncements = () => {
+  const router = useRouter()
   const [value, onChange] = useState(new Date());
   const [clickedDay, setClickedDay] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -45,7 +47,7 @@ const PastAnnouncements = () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
           console.log(user.uid)
-        }
+        
             const fetch = async() => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
@@ -57,11 +59,14 @@ const PastAnnouncements = () => {
                 setReturned(true)
                 
             } else {
+              router.replace("/login")
                 console.log("No such document!");
             }
       }
       fetch()
-
+} else {
+  router.replace("/login")
+}
         });
     
 }

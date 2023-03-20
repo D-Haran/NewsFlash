@@ -5,8 +5,10 @@ import TaskAdded from '../components/task/taskAdded/taskAdded'
 import Task from "../components/task/task";
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/today.module.css'
+import { useRouter } from "next/router";
 
 const Today = () => {
+    const router = useRouter()
     const [notes, setNotes] = useState(null)
     const [completeSchoolName, setCompleteSchoolName] = useState("_null")
     const [returned, setReturned] = useState(false)
@@ -18,7 +20,6 @@ const Today = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
               console.log(user.uid)
-            }
                 const fetch = async() => {
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
@@ -31,9 +32,13 @@ const Today = () => {
                     
                 } else {
                     console.log("No such document!");
+                    router.replace("/login")
                 }
           }
           fetch()
+        } else {
+            router.replace("/login")
+        }
 
             });
         

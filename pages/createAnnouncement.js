@@ -35,7 +35,7 @@ const CreateAnnouncement = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
               console.log(user.uid)
-            }
+            
         const fetch = async() => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
@@ -51,9 +51,13 @@ const CreateAnnouncement = () => {
             checkAnnouncementExist(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             } else {
             console.log("No such document!");
+            router.replace("/login")
             }
         }
-        fetch()
+        fetch()} 
+        else {
+            router.replace("/login")
+        }
     });
         
 }

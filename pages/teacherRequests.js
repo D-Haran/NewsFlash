@@ -9,6 +9,7 @@ import Link from 'next/link'
 import {signOut, onAuthStateChanged} from 'firebase/auth'
 
 const TeacherRequests = () => {
+    const router = useRouter()
     var requests = []
     const [allRequests, setAllRequests] = useState([])
     const [userId, setUserId] = useState("")
@@ -39,12 +40,15 @@ const TeacherRequests = () => {
                   }
                 } else {
                   console.log("No such document!");
+                  router.replace("/login")
                 }
                 } catch (err){
                   console.log(err)
                 }
           }
-          fetch()}
+          fetch()} else {
+            router.replace("/login")
+          }
         });
         
         

@@ -1,17 +1,42 @@
 import Image from 'next/image'
 import styles from '../../styles/login.module.css'
 import { useState } from 'react'
-import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo } from "firebase/auth"
-import {auth} from "../../firebase"
+import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo, onAuthStateChanged } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/router'
-import { createContext, useEffect, onAuthStateChanged } from 'react'
+import {auth, db} from "../../firebase"
+import { createContext, useEffect } from 'react'
 
 export default function Login() {
     const router = useRouter()
     const [user, setUser] = useAuthState(auth)
     const [buttonclicked, setButtonclicked] = useState(false)
     const googleAuth=new GoogleAuthProvider();
+
+    const fetchUser = async () => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              console.log(user.uid)
+            }
+                const fetch = async() => {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+            
+                if (docSnap.exists()) {
+                    router.replace("/")
+                } else {
+                    console.log("No such document!");
+                }
+          }
+          fetch()
+    
+            });
+    }
+    
+    useEffect(() => {
+      fetchUser()
+    }, [])
     const login = async() => {
         setButtonclicked(true)
         const result = await signInWithPopup(auth, googleAuth) || null;
