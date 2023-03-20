@@ -59,7 +59,8 @@ const Teacher = () => {
             school_id: randomId,
             school_name: schoolName,
             school_abbreviated: abbrev,
-            dateAdded: Date().toLocaleString()
+            dateAdded: Date().toLocaleString(),
+            waiting_approval: false,
         })
           await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
             data: 'Hello there World',
