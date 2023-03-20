@@ -152,7 +152,7 @@ useEffect(() => {
 
       <footer className={styles.footer}>
         <Link
-          href="https://github.com/D-Haran/"
+          href="https://github.com/D-Haran/NewsFlash"
           target="_blank"
           rel="noopener noreferrer"
         >Made by Derrick Ratnaharan
