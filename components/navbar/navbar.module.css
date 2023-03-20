@@ -183,7 +183,7 @@
     width: max-content;
     right: 7vw;
     border-radius: 1.1vw;
-    background: rgba( 252, 119, 83, 0.65 );
+    background: rgba(83, 252, 224, 0.566);
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.47 );
     backdrop-filter: blur( 11.5px );
     -webkit-backdrop-filter: blur( 11.5px );
