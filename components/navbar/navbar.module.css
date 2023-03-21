@@ -35,7 +35,26 @@
         top: 50%;
     width: 50%;
     text-align: center;
-    color: #505050;
+    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+    color: #ffffff;
+    border-radius: 7px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.search:hover {
+    height: 4vh;
+    width: 60%;
+    background: linear-gradient(to top left, #00ffff, #ff00ff);
+}
+
+.searchContainer {
+    height: 3vh;
+    margin: auto;
+    width: 100%;
+    top: 50%;
+    width: 50%;
+    text-align: center;
     border-radius: 10px;
 }
 
