@@ -75,6 +75,7 @@ export default function Home() {
 useEffect(() => {
     console.log(selectedOption)
 }, [selectedOption])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -85,7 +86,7 @@ useEffect(() => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a>NewsFlash</a>
+          Welcome to <a>NewsFlash.</a>
         </h1>
 
         <p className={styles.description}>

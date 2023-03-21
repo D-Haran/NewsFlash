@@ -37,7 +37,7 @@
     background: linear-gradient(to bottom right, #00ffff, #ff00ff);
     color: #ffffff;
     border-radius: 7px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-out;
     cursor: pointer;
     border: none;
 }
@@ -46,9 +46,6 @@
     height: 4vh;
     width: 60%;
     background: linear-gradient(to top left, #00ffff, #ff00ff);
-    -webkit-transition: background 1000ms linear;
-    -ms-transition: background 1000ms linear;
-    transition: background 1000ms linear;
 }
 
 .searchContainer {
