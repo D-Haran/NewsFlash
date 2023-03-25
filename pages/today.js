@@ -93,7 +93,16 @@ useEffect(() => {
                     })
                     }
                 </div>
-            }</main>
+            }
+            {
+                !docData &&
+                <div className={styles.noAnnouncements}>
+                <h2>No Announcements Released Today.
+                </h2>
+                
+                </div>
+            }
+            </main>
     </div>
   )
 }

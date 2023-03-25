@@ -60,3 +60,15 @@
 .card p {
   margin: 0;
 }
+
+.noAnnouncements {
+  border-radius: 12px;
+  padding: 1.5%;
+  background-color: #fff;
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
