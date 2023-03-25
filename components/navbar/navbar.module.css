@@ -45,6 +45,7 @@
 .search:hover {
     height: 4vh;
     width: 60%;
+    font-size: 1.5vh;
     background: linear-gradient(to top left, #00ffff, #ff00ff);
 }
 
@@ -56,12 +57,18 @@
     width: 50%;
     text-align: center;
     border-radius: 10px;
+
 }
 
-.search::placeholder {
-    font-size: 1.6vh;
-    color: #494343;
+.search {
+    font-size: 1.3vh;
 }
+
+@media (max-width: 620px) {
+    .search {
+        font-size: 0.9vh;
+    }
+  }
 
 .loginHeader {
     margin-top: 13vh;
