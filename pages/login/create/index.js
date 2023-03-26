@@ -14,9 +14,12 @@ const Create = () => {
 
   return (
     <div className={styles.container}>
-    <h2 clssName={styles.title}>
+    <div className={styles.title}>
+    <h2>
     You seem new! Are you a Student or Teacher?
     </h2>
+    </div>
+    
     <div className={styles.grid}>
     <Link href="/login/create/student" className={styles.card}>
                 <h2>Student &rarr;</h2>

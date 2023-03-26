@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from '../../styles/login.module.css'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import {signInWithPopup, GoogleAuthProvider, getAdditionalUserInfo, onAuthStateChanged, getAuth } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
@@ -12,11 +12,13 @@ export default function Login() {
     const router = useRouter()
     const [user, setUser] = useAuthState(auth)
     const [buttonclicked, setButtonclicked] = useState(false)
+    const [errorCode, setErrorCode] = useState(false)
     const googleAuth=new GoogleAuthProvider();
 
     const login = async() => {
         setButtonclicked(true)
-        const result = await signInWithPopup(auth, googleAuth) || null;
+        try {
+const result = await signInWithPopup(auth, googleAuth) || null;
         console.log(result)
         if (result) {
             setButtonclicked(false)
@@ -45,10 +47,19 @@ export default function Login() {
                 fetch()
                 // ...
             }
+            else {
+                
+            }
 });
             
             
         }
+        } catch(err) {
+            setButtonclicked(false)
+            console.log(err.code.slice(5, ).replace(/-/g, " "))
+            setErrorCode(err.code.slice(5, ).replace(/-/g, " "))
+        }
+        
     }
     return (
     <div className={styles.container}>
@@ -60,6 +71,12 @@ export default function Login() {
         }
         {buttonclicked &&
         <button className={styles.signInWithGoogleButton} disabled>Loading...</button>
+        }
+        {errorCode &&
+            <div className={styles.error}  onClick={() => {setErrorCode(null)}}>
+            <p className={styles.errorText}>{errorCode}</p>
+            </div>
+            
         }
         
     </div>
