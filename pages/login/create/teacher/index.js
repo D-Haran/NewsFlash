@@ -177,7 +177,7 @@ const Teacher = () => {
         {selectedOption.value !== "createNew" &&
       <Fragment>
         <label className={styles.labels}>School Code</label>
-          <input className={styles.inputs} onChange={(e) => {setInputedCode(e.target.value)}} />
+          <input className={styles.inputs} onChange={(e) => {setInputedCode(e.target.value.toUpperCase())}} />
       </Fragment>
       
     }

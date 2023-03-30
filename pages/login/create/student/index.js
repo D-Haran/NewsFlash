@@ -105,7 +105,7 @@ const makeid = (length) => {
         options={options}
       />
         <label className={styles.labels}>School Access Code</label>
-        <input required className={styles.inputs} onChange={(e) => {setSchoolCode(e.target.value)}}/>
+        <input required className={styles.inputs} onChange={(e) => {setSchoolCode(e.target.value.toUpperCase())}}/>
         {
           wrongCode &&
           <p>School Code entered is incorrect. Please try again</p>

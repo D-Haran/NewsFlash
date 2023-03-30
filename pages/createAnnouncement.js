@@ -76,13 +76,30 @@ const checkAnnouncementExist = async(complete) => {
         console.log("Already Announced:", docSnap.data());
         if (!notesAdded) {
             setNotes(notes.concat(docSnap.data().notes))
-        }
+            const newOptions = [{ value: 'createNew', label: 'Create a new club...' }]
+            docSnap.data().notes.map((item) => {
+                console.log(item.club)
+                newOptions.push({value: item.club.value, label:item.club.label})            
+        })
+            const uniqueDates = [];
+            for (let date of newOptions){
+                    let unique = true;
+                    for (let uniqueDate of uniqueDates){
+                        if (uniqueDate.label == date.label && uniqueDate.value == date.value){
+                        unique = false; 
+                        }
+                    }
+                    if(unique){
+                        uniqueDates.push(date);
+                    }
+                }
+            setOptions(uniqueDates)
+            }
         setNotesAdded(true)
         } else {
         console.log("No such announcement!");
         }
 }
-
     
 
     const releaseAnnouncement = async(e) => {
@@ -143,7 +160,7 @@ const checkAnnouncementExist = async(complete) => {
     isSearchable
     defaultValue={selectedOption}
     onChange={setSelectedOption}
-    options={options}
+    options={[...new Set(options)]}
     />
     {
         createNewClub &&
