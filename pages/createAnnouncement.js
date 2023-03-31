@@ -31,12 +31,13 @@ const CreateAnnouncement = () => {
     const [completeSchoolName, setCompleteSchoolName] = useState("")
     const [notesAdded, setNotesAdded] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [user, setUser] = useState(null)
 
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
               console.log(user.uid)
-            
+                setUser(user)
         const fetch = async() => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
@@ -111,7 +112,8 @@ const checkAnnouncementExist = async(complete) => {
         var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
         await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
             notes: notes,
-            dateAdded: Date().toLocaleString()
+            dateAdded: Date().toLocaleString(),
+            createdBy: {name: user.displayName, email: user.email}
         }).then(
             setReleased(true)
         ).then(router.replace("/"))
