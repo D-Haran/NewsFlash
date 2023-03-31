@@ -7,6 +7,7 @@ import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/fires
 import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/createAnnouncement.module.css'
+import { Suspense } from 'react';
 
 const CreateAnnouncement = () => {
     const router = useRouter()
@@ -190,6 +191,7 @@ const checkAnnouncementExist = async(complete) => {
         )
     })
 }
+    
 {
     loading &&
     <button disabled className={styles.createAnnouncement}>Loading...</button>
@@ -208,6 +210,10 @@ const checkAnnouncementExist = async(complete) => {
 }
     </div>
   )
+}
+
+function Loading() {
+    return <h1>🌀 Loading...</h1>;
 }
 
 export default CreateAnnouncement

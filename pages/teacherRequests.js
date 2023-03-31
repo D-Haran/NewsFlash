@@ -130,8 +130,8 @@ const TeacherRequests = () => {
 
   return (
     <div className={styles.container}>
+    <h1 className={styles.title}>Teacher Requests</h1>
     <div className={styles.main}>
-        <h1 className={styles.title}>Teacher Requests</h1>
         <div className={styles.cardContainer}>
         {
             allRequests.map((item, idx) => {
@@ -161,6 +161,12 @@ const TeacherRequests = () => {
                 
                 
             })
+        }
+
+        {allRequests.length == 1 &&
+          <div className={styles.noRequests}>
+            <h2>No Teacher Requests</h2>
+          </div>
         }
         </div>
     </div>
