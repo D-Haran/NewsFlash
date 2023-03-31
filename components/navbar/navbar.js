@@ -17,6 +17,7 @@ const Navbar = () => {
     const [password, setPassword] = useState('')
     const [userId, setUserId] = useState('')
     const [progress, setProgress] = useState(0)
+    const [user, setUser] = useState(null)
     useEffect(() => {
       router.events.on('routeChangeStart', () => {setProgress(20); setProfileClicked(false)})
       router.events.on('routeChangeComplete', () => {setProgress(100)})
@@ -29,7 +30,7 @@ const Navbar = () => {
         onAuthStateChanged(auth, (user) => {
           if (user) {
             setIsLoggedIn(true)
-          
+          setUser(user)
           const fetch = async() => {
             try{
                 setUserId(user.uid)
@@ -73,7 +74,9 @@ const Navbar = () => {
 
         <div className={styles.container}>
             <div className={styles.navContainer}>
-                <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/LogoOrangeSlim.svg" alt="NewsFlash Logo" width="-1" height="-1" objectFit='contain' layout='responsive' />    
+            <div className={styles.LogoIcon}>
+              <Image onClick={() => {router.push("/")}} src={"/static/LogoOrangeSlim.svg"} alt="NewsFlash Logo" width={200} height={200} objectFit='fill' layout='fill' />               
+            </div>
                 {router.asPath != "/login" &&
               <div onClick={() => {router.push("/today")}} className={styles.searchContainer}>
                 <button className={styles.search}>Morning Announcements</button>
@@ -81,8 +84,19 @@ const Navbar = () => {
               }
                    
               {router.asPath != "/login" &&
-                <Image className={styles.profileIcon} onClick={handleProfileClick} alt="Profile Icon" src="/static/profileIconOrange.png" width="50" height="50" objectFit='contain' layout='responsive' />
+              <Fragment>
+               {
+                user?.photoURL &&
+                <div className={styles.profileIconUrl} >
+                <Image onClick={handleProfileClick} alt="Profile Icon" src={user.photoURL} width="50" height="50" objectFit='contain' layout='responsive' />
+              </div>
             }
+              </Fragment>
+              }
+            {
+              !user &&
+              <Image className={styles.profileIcon} onClick={() => {router.push("/")}} src="/static/profileIconOrange.png" alt="NewsFlash Logo" width={200} height={200} objectFit='contain' layout='responsive' />    
+            } 
                 
             </div>
             
@@ -94,16 +108,19 @@ const Navbar = () => {
                 isLoggedIn &&
                 <div>
                     <Link href={`/profiles/${userId}`}>
-                        <p className={styles.dropDownText}>{localStorage.getItem("displayName")}</p>
+                        <h3 className={styles.dropDownText}>{localStorage.getItem("displayName")}</h3>
                     </Link>
-                    <p className={styles.dropDownText} onClick={(e) => {signOut(auth).then(function() {
-                        e.preventDefault()
-                        console.log('Signed Out');
-                        localStorage.removeItem("displayName")
-                        router.reload()
-                      }, function(error) {
-                        console.error('Sign Out Error', error);
-                      });}}>Sign Out</p>
+                    <ul>
+                      <p className={styles.dropDownText} onClick={(e) => {signOut(auth).then(function() {
+                          e.preventDefault()
+                          console.log('Signed Out');
+                          localStorage.removeItem("displayName")
+                          router.reload()
+                        }, function(error) {
+                          console.error('Sign Out Error', error);
+                        });}}>Sign Out</p>
+                    </ul>
+                    
                 </div>
             }
             {
