@@ -167,8 +167,9 @@
 .profileIconUrl {
     filter: drop-shadow(0px 4px 4px #FC7753);
     border-radius: 50%;
-    height: 3.3px;
+    height: 3.3vh;
     width: 3.3vh;
+    overflow: hidden;
 }
 .LogoIcon {
     position: relative;
@@ -206,8 +207,8 @@
     height: max-content;
     width: max-content;
     right: 7vw;
-    border-bottom-left-radius: 1.1vw;
-    border-bottom-right-radius: 1.1vw;
+    border-bottom-left-radius: 1.1vh;
+    border-bottom-right-radius: 1.1vh;
     background: rgba(83, 252, 224, 0.566);
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.47 );
     backdrop-filter: blur( 11.5px );
