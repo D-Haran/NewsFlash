@@ -13,6 +13,7 @@ const TeacherRequests = () => {
     var requests = []
     const [allRequests, setAllRequests] = useState([])
     const [userId, setUserId] = useState("")
+    const [role, setRole] = useState("")
     const [loading, setLoading] = useState(false)
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -25,7 +26,7 @@ const TeacherRequests = () => {
                 const docSnap = await getDoc(docRef);
     
                 if (docSnap.exists()) {
-                  console.log("Document data:", docSnap.data());
+                  setRole(docSnap.data().role)
                   if (docSnap.data().role == "teacher") {
                     const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests');
                     const snapshot = await getDocs(collectionRef);
@@ -46,7 +47,8 @@ const TeacherRequests = () => {
                   console.log(err)
                 }
           }
-          fetch()} else {
+          fetch()}
+           else {
             router.replace("/login")
           }
         });
@@ -127,6 +129,14 @@ const TeacherRequests = () => {
         deny()}
       });
   }
+
+  useEffect(() => {
+    if (role) {
+      if (role !== "teacher") {
+        router.replace("/")
+    }  
+    }
+}, [role])
 
   return (
     <div className={styles.container}>

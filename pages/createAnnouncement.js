@@ -32,6 +32,7 @@ const CreateAnnouncement = () => {
     const [notesAdded, setNotesAdded] = useState(false)
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(null)
+    const [role, setRole] = useState(null)
 
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -51,6 +52,7 @@ const CreateAnnouncement = () => {
             setCompleteSchoolName(schoolAbbrev+"_"+schoolId)
             console.log("hey", docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             checkAnnouncementExist(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
+            setRole(docSnap.data().role)
             } else {
             console.log("No such document!");
             router.replace("/login")
@@ -68,6 +70,13 @@ const CreateAnnouncement = () => {
 useEffect(() => {
     fetchUser()
 }, [taskAdded, selectedOption])
+useEffect(() => {
+    if (role) {
+      if (role !== "teacher") {
+        router.replace("/")
+    }  
+    }
+}, [role])
 
 const checkAnnouncementExist = async(complete) => {
     const dateNow = new Date()
@@ -106,7 +115,8 @@ const checkAnnouncementExist = async(complete) => {
 
     const releaseAnnouncement = async(e) => {
         e.preventDefault()
-        setLoading(true)
+        if (role == "teacher") {
+          setLoading(true)
         try {
             const dateNow = new Date()
         var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
@@ -119,8 +129,12 @@ const checkAnnouncementExist = async(complete) => {
         ).then(router.replace("/"))
         } catch {
             setLoading(false)
+        }  
         }
-        
+        else {
+            alert("Only teachers may edit, delete or release announcments")
+            router.replace("/")
+        } 
     }
 
     useEffect(() => {
