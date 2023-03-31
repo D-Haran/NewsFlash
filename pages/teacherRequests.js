@@ -165,7 +165,7 @@ const TeacherRequests = () => {
 
         {allRequests.length == 1 &&
           <div className={styles.noRequests}>
-            <h2>No Teacher Requests</h2>
+            <h2>No teacher requests at the moment.</h2>
           </div>
         }
         </div>
