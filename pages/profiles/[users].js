@@ -5,6 +5,7 @@ import {useState, useContext, useEffect, Fragment} from 'react'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc  } from "firebase/firestore";
 import {signOut, onAuthStateChanged, deleteUser, getAuth} from 'firebase/auth'
 import styles from "../../styles/user.module.css"
+import Select, { components } from 'react-select'
 
 const Users = () => {
     const router = useRouter()
@@ -13,6 +14,7 @@ const Users = () => {
     const [docData, setDocData] = useState(null)
     const [currentUsertest, setCurrentUsertest] = useState(null)
     const [confirmed, setConfirmed] = useState(false)
+    const [changeAdminPopUp, setChangeAdminPopUp] = useState(true)
     console.log(router.asPath.substring(10,));
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -49,20 +51,50 @@ const Users = () => {
         e.preventDefault()
         try {
             if (currentUsertest) {
-                const docRef = doc(db, "users", userNamePath);
-                await deleteDoc(docRef)
+                const docRefUser = doc(db, "users", userNamePath);
+                if (docData.admin !== true) {
+                  await deleteDoc(docRefUser)
+                  if (docData.role == "teacher") {
+                    const docRefTeacherAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "teachers", docData.database_doc_name || currentUsertest.uid)
+                    await deleteDoc(docRefTeacherAccount)
+                  } else if (docData.role == "student") {
+                    console.log(docData.school_abbreviated+"_"+docData.school_id)
+                    const docRefStudentAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "students", docData.database_doc_name)
+                    await deleteDoc(docRefStudentAccount)
+                  if (docData.waiting_approval) {
+                    const docRefStudentAccountRequest = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "teacher_requests", currentUsertest.uid)
+                    await deleteDoc(docRefStudentAccountRequest)
+                  }
+                  }
                 console.log("Deleted")
                 deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
+                }
+                else if (docData.admin == true) {
+                  setChangeAdminPopUp(true)
+                }
             }
             
         } catch (err){
             console.log(err)
         }
       }
+
+
+
   return (
     <div className={styles.container}>
     {docData &&
         <Fragment>
+        {changeAdminPopUp &&
+          <div>
+            As admin, you must give another account admin privilleges 
+            
+            <Select
+    className={styles.selectMenu}
+    isSearchable
+    />
+          </div>
+        }
         <span className={styles.name}>{docData.name}</span>
             <br />
             <span className={styles.details}>{docData.school_name}</span>
@@ -71,7 +103,11 @@ const Users = () => {
             <br />
             <span className={styles.details}>{docData.dateAdded}</span>
             <br />
-            <span className={styles.details}>{docData.role}</span>
+            <span className={styles.details}>
+            {docData.role == "teacher" && 
+              <Fragment>{docData.admin && "Admin "}</Fragment>}
+              {docData.role}
+            </span>
             <br />
             {
               !confirmed &&

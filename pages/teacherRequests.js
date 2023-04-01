@@ -13,7 +13,8 @@ const TeacherRequests = () => {
     var requests = []
     const [allRequests, setAllRequests] = useState([])
     const [userId, setUserId] = useState("")
-    const [role, setRole] = useState("")
+    const [admin, setAdmin] = useState(null)
+    const [docData, setDocData] = useState(null)
     const [loading, setLoading] = useState(false)
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -26,7 +27,9 @@ const TeacherRequests = () => {
                 const docSnap = await getDoc(docRef);
     
                 if (docSnap.exists()) {
-                  setRole(docSnap.data().role)
+                  setDocData(docSnap.data())
+                  setAdmin(docSnap.data().admin)
+                  console.log(docSnap.data().admin)
                   if (docSnap.data().role == "teacher") {
                     const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests');
                     const snapshot = await getDocs(collectionRef);
@@ -60,11 +63,12 @@ const TeacherRequests = () => {
     fetchUser()
   }, [])
 
-  const handleApprove = (id, idx, name, email) => {
+  const handleApprove = (id, idx, name, email, database_doc_name) => {
     setLoading(true)
     onAuthStateChanged(auth, (user) => {
         if (user) {
-        const approve = async() => {
+          if (admin) {
+            const approve = async() => {
               const docRef = doc(db, "users", user.uid);
               console.log({user})
               const docSnap = await getDoc(docRef);
@@ -77,12 +81,14 @@ const TeacherRequests = () => {
 
                   const collectionRefUser = doc(db, 'users', id)
                   await updateDoc((collectionRefUser), {
+                    admin: false,
                     role: "teacher",
                     waiting_approval: false,
                   })
                   console.log("editted")
 
-                  await addDoc(collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers'), {
+                  await setDoc(doc(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers', database_doc_name), {
+                    admin: false,
                     name: name,
                     email: email,
                     role: 'teacher',
@@ -100,7 +106,9 @@ const TeacherRequests = () => {
                 setLoading(false)
               }
         }
-        approve()}
+        approve()
+          }
+        }
       });
   }
 
@@ -115,6 +123,11 @@ const TeacherRequests = () => {
   
               if (docSnap.exists()) {
                 if (docSnap.data().role == "teacher") {
+                  const collectionRefUser = doc(db, 'users', id)
+                  await updateDoc((collectionRefUser), {
+                    role: "student",
+                    waiting_approval: false,
+                  })
                   await deleteDoc(doc(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests', id));
                   console.log('deleted')
                 requests.splice(idx, 1)
@@ -130,13 +143,11 @@ const TeacherRequests = () => {
       });
   }
 
-  useEffect(() => {
-    if (role) {
-      if (role !== "teacher") {
-        router.replace("/")
-    }  
-    }
-}, [role])
+useEffect(() => {
+    if (admin == false) {
+          router.replace("/")
+      }
+}, [admin])
 
   return (
     <div className={styles.container}>
@@ -151,7 +162,7 @@ const TeacherRequests = () => {
                     <div key={idx} className={styles.card}>
                     {!loading &&
                         <div>
-                            <button className={styles.approve} onClick={() => {handleApprove(item.user_id, idx, item.name, item.email)}}>Approve</button>
+                            <button className={styles.approve} onClick={() => {handleApprove(item.user_id, idx, item.name, item.email, item.database_doc_name)}}>Approve</button>
                             <button className={styles.deny} onClick={() => {handleDeny(item.user_id, idx)}}>Deny</button>
                         </div>
                     }

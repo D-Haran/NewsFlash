@@ -62,10 +62,13 @@ const handleSubmit = async(e) => {
             school_id: selectedOption.value,
             school_name: selectedOption.label,
             school_abbreviated: selectedOption.abbreviated,
-            dateAdded: Date().toLocaleString()
+            dateAdded: Date().toLocaleString(),
+            database_doc_name: userName
         })
           await setDoc(doc(db, 'schools', collectionName, 'students', userName), {
             name: localStorage.getItem("displayName"),
+            email: email,
+            userName: userName,
             dateAdded: Date().toLocaleString()
         })
       

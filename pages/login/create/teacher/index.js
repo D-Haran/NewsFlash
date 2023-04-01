@@ -54,6 +54,7 @@ const Teacher = () => {
           })
           await setDoc(doc(db, 'users', userId), {
             name: localStorage.getItem("displayName"),
+            admin: true,
             role: 'teacher',
             email: email,
             school_id: randomId,
@@ -61,6 +62,7 @@ const Teacher = () => {
             school_abbreviated: abbrev,
             dateAdded: Date().toLocaleString(),
             waiting_approval: false,
+            database_doc_name: userName
         })
           await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
             data: 'Hello there World',
@@ -72,10 +74,10 @@ const Teacher = () => {
             name: 'nothing yet',
             dateAdded: Date().toLocaleString()
         })
-          await addDoc(collection(db, 'schools', collectionName, 'teachers'), {
-            name: localStorage.getItem("displayName"),
-            dateAdded: Date().toLocaleString()
-        })
+        //   await addDoc(collection(db, 'schools', collectionName, 'teachers'), {
+        //     name: localStorage.getItem("displayName"),
+        //     dateAdded: Date().toLocaleString()
+        // })
           await setDoc(doc(db, 'schools', collectionName, 'teachers', userName), {
             name: localStorage.getItem("displayName"),
             dateAdded: Date().toLocaleString()
@@ -93,7 +95,8 @@ const Teacher = () => {
           school_name: selectedOption.label,
           school_abbreviated: selectedOption.abbreviated,
           dateAdded: Date().toLocaleString(),
-          waiting_approval: true
+          waiting_approval: true,
+          database_doc_name: userName
       })
       await setDoc(doc(db, 'schools', selectedOption.id, 'teacher_requests', userId), {
           name: localStorage.getItem("displayName"),
@@ -103,8 +106,8 @@ const Teacher = () => {
           school_id: selectedOption.id.slice(-6),
           school_name: selectedOption.label,
           school_abbreviated: selectedOption.abbreviated,
-          dateAdded: Date().toLocaleString()
-          
+          dateAdded: Date().toLocaleString(),
+          database_doc_name: userName
     })
     
     router.push("/")

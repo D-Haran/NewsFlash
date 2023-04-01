@@ -16,10 +16,13 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isTeacher, setIsTeacher] = useState(false)
   const [schoolName, setSchoolName] = useState("")
+  const [schoolAbbrev, setSchoolAbbrev] = useState("")
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [docData, setDocData] = useState(null);
   const [teacherRequestLength, setTeacherRequestLength] = useState(0);
+  const [studentCount, setStudentCount] = useState(0);
+  const [teacherCount, setTeacherCount] = useState(0);
 
   function openModal() {
     setIsOpen(true);
@@ -48,6 +51,21 @@ export default function Home() {
               }
               
               setSchoolName(docSnap.data().school_name)
+              setSchoolAbbrev(docSnap.data().school_abbreviated)
+              if (docSnap.data().role == "teacher") {
+                if (docSnap.data().admin) {
+                  const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'students');
+                const dataCount = await getCountFromServer(collectionRef)
+                setStudentCount(dataCount.data().count)
+                }
+              }
+              if (docSnap.data().role == "teacher") {
+                if (docSnap.data().admin) {
+                  const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers');
+                const dataCount = await getCountFromServer(collectionRef)
+                setTeacherCount(dataCount.data().count)
+                }
+              }
             } else {
               router.replace("/login")
               console.log("No such document!");
@@ -97,7 +115,7 @@ useEffect(() => {
           
         </p>
         {isLoggedIn &&
-    <p>Hello <b>{displayName}</b> ({docData && <Fragment>{docData.role}{docData.waiting_approval && <Fragment> waiting for teacher approval</Fragment>}</Fragment> })</p>
+    <p>Hello <b>{displayName}</b> ({docData && <Fragment>{docData.role == "teacher" && <Fragment>{docData.admin && "Admin "}</Fragment>}{docData.role}{docData.waiting_approval && <Fragment> waiting for teacher approval</Fragment>}</Fragment> })</p>
       }
         
 
@@ -139,10 +157,19 @@ useEffect(() => {
           <h2>Create Announcement &rarr;</h2>
           <p>Create a new announcement in {schoolName}</p>
         </Link>
+        {docData.admin == true &&
+          <Fragment>
             <Link href="/teacherRequests" className={styles.card}>
-          <h2>Teacher Requests &rarr;</h2>
-          <p>You have <b>{teacherRequestLength}</b> teacher requests at the moment</p>
-        </Link>
+              <h2>Teacher Requests &rarr;</h2>
+              <p>You have <b>{teacherRequestLength}</b> teacher requests at the moment</p>
+            </Link>
+            <Link href="/schoolList" className={styles.card}>
+              <h2>Student & Teacher List &rarr;</h2>
+              <p>Get list of all <b>{studentCount+teacherCount}</b> teachers & students at {schoolAbbrev}</p>
+            </Link>
+          </Fragment>
+        }
+            
             </Fragment>
             
           }          
