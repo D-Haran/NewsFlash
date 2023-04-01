@@ -12,6 +12,8 @@
     text-align: center;
     border: black;
     width: min-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .cardContainer {

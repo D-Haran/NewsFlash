@@ -2,7 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import {auth, db} from '../../firebase'
 import {useState, useContext, useEffect, Fragment} from 'react'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc  } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc, getCountFromServer, updateDoc  } from "firebase/firestore";
 import {signOut, onAuthStateChanged, deleteUser, getAuth} from 'firebase/auth'
 import styles from "../../styles/user.module.css"
 import Select, { components } from 'react-select'
@@ -14,7 +14,11 @@ const Users = () => {
     const [docData, setDocData] = useState(null)
     const [currentUsertest, setCurrentUsertest] = useState(null)
     const [confirmed, setConfirmed] = useState(false)
-    const [changeAdminPopUp, setChangeAdminPopUp] = useState(true)
+    const [selectedOption, setSelectedOption] = useState(null)
+    const [changeAdminPopUp, setChangeAdminPopUp] = useState(false)
+    const [teachersList, setTeachersList] = useState([])
+    const [admin, setAdmin] = useState(false)
+    const teachers = []
     console.log(router.asPath.substring(10,));
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
@@ -26,13 +30,41 @@ const Users = () => {
                 const docSnap = await getDoc(docRef);
     
                 if (docSnap.exists()) {
-                  console.log("Document data:", docSnap.data());
                   setDocData(docSnap.data())
+                  setAdmin(docSnap.data().admin)
+                  console.log("Document data:", docSnap.data());
+                  if (docSnap.data().role == "teacher") {
+                    if (docSnap.data().admin) {
+                      console.log(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
+                      const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers');
+                    const snapshot = await getDocs(collectionRef);
+                    const dataCount = await getCountFromServer(collectionRef)
+                    console.log(dataCount.data().count)
+                    snapshot.forEach(doc => {
+                      if (!doc.data().test) {
+                        if (dataCount.data().count > teachers.length+2) {
+                          if (doc.data().user_id !== user.uid) {
+                            const teacherData = doc.data()
+                            teacherData["database_doc_name"] = doc.id
+                            console.log(teacherData)
+                            teachers.push(teacherData)
+                          }
+                        }
+                      }
+                        
+                        console.log(teachers)
+                        
+                    })
+                    setTeachersList(teachers)
+                  }
+                    
+                  }
+                  
                 } else {
                   console.log("No such document!");
                 }
-                } catch {
-    
+                } catch (err){
+                  console.log("ERROR: ", err)
                 }
           }
           fetch()}
@@ -45,7 +77,8 @@ const Users = () => {
         if (!docData) {
           fetchUser()
         }
-      }, [router])
+        setUserNamePath(router.asPath.substring(10,))
+      }, [docData, router])
 
       const deletingUser = async(e) => {
         e.preventDefault()
@@ -70,7 +103,23 @@ const Users = () => {
                 deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
                 }
                 else if (docData.admin == true) {
-                  setChangeAdminPopUp(true)
+                  if (selectedOption !== null) {
+                  if (docData.role == "teacher") {
+                    const docRefNewTeacherAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "teachers", selectedOption.database_doc_name)
+                    await updateDoc((docRefNewTeacherAccount), {
+                      admin: true
+                    })
+                    const docRefNewTeacherAccountUser = doc(db, "users", selectedOption.user_id)
+                    await updateDoc((docRefNewTeacherAccountUser), {
+                      admin: true
+                    })
+                    const docRefTeacherAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "teachers", docData.database_doc_name || currentUsertest.uid)
+                    await deleteDoc(docRefTeacherAccount)
+                    await deleteDoc(docRefUser)
+                  }
+                console.log("Deleted")
+                deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
+                  }
                 }
             }
             
@@ -87,11 +136,15 @@ const Users = () => {
         <Fragment>
         {changeAdminPopUp &&
           <div>
-            As admin, you must give another account admin privilleges 
+            As admin, you must give another account admin privilleges before deleting this account
             
             <Select
     className={styles.selectMenu}
     isSearchable
+    options={teachersList}
+    onChange={setSelectedOption}
+    getOptionLabel ={(option)=>option.name}
+   getOptionValue ={(option)=>option.email}
     />
           </div>
         }
@@ -111,7 +164,7 @@ const Users = () => {
             <br />
             {
               !confirmed &&
-              <button className={styles.button} onClick={(e) => {e.preventDefault();setConfirmed(true)}}>Delete Account</button>
+              <button className={styles.button} onClick={(e) => {e.preventDefault();setConfirmed(true); if (admin) {setChangeAdminPopUp(true)}}}>Delete Account</button>
             }
             {confirmed &&
             <button className={styles.buttons} onClick={deletingUser}>Delete Account</button>

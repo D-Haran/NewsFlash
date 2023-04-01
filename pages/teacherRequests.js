@@ -93,6 +93,7 @@ const TeacherRequests = () => {
                     email: email,
                     role: 'teacher',
                     user_id: id,
+                    database_doc_name: database_doc_name,
                     dateAdded: Date().toLocaleString()
               })
                   console.log("added")
