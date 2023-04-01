@@ -23,8 +23,7 @@ const Student = () => {
         .then((querySnapshot)=>{               
             const newData = querySnapshot.docs
                 .map((doc) => ({...doc.data(), id:doc.id }));
-            setSchools(newData);                
-            console.log(newData);
+            setSchools(newData); 
         })
    
 }
@@ -51,7 +50,6 @@ const handleSubmit = async(e) => {
   e.preventDefault()
   setLoading(true)
   if (schoolCode == selectedOption.value) {
-    console.log("verified")
     const collectionName = selectedOption.id
       const userName = localStorage.getItem("displayName").replace(/\s+/g, '') + "_" + makeid(5)
       const userId = auth.lastNotifiedUid

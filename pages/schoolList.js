@@ -25,24 +25,20 @@ const SchoolList = () => {
       const fetch = async() => {
         try{
             const docRef = doc(db, "users", user.uid);
-            console.log({user})
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
               setDocData(docSnap.data())
               setAdmin(docSnap.data().admin)
-              console.log(docSnap.data().admin)
               if (docSnap.data().role == "teacher") {
                 if (docSnap.data().admin) {
                   const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'students');
                 const snapshot = await getDocs(collectionRef);
                 const dataCount = await getCountFromServer(collectionRef)
                 snapshot.forEach(doc => {
-                  console.log(doc.id)
                     if (dataCount.data().count > students.length) {
                        students.push(doc.data())
                     }
-                    console.log(studentsList) 
                     setStudentsList(students)
                     setStudentCount(dataCount.data().count)
                 })
@@ -56,7 +52,13 @@ const SchoolList = () => {
                 const dataCount = await getCountFromServer(collectionRef)
                 snapshot.forEach(doc => {
                     if (dataCount.data().count > teachers.length) {
-                       teachers.push(doc.data())
+                      const teacherData = doc.data()
+                      if (doc.data().user_id == user.uid) {
+                        teacherData["name"] = teacherData["name"] + " (You)"
+                        teachers.push(teacherData)
+                      } else {
+                        teachers.push(teacherData)
+                      }
                     }
                     setTeachersList(teachers)
                     setTeacherCount(dataCount.data().count)
@@ -89,7 +91,6 @@ fetchUser()
     if (docData) {
       const collectionRef = collection(db, 'schools', docData.school_abbreviated+"_"+docData.school_id, 'students');
     const snapshot = await getDocs(collectionRef);
-    console.log(snapshot)
     }
   }
   useEffect(() => {
@@ -110,6 +111,7 @@ fetchUser()
   
   return (
     <div className={styles.container}>
+    <main className={styles.main}>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <h1>School List</h1>
         <h2>Teachers: <b>{teacherCount}</b></h2>
@@ -143,8 +145,7 @@ fetchUser()
         })
       }
         </div>
-
-        
+    </main>
     </div>
   )
 }

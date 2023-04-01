@@ -2,6 +2,11 @@
     background: linear-gradient(to bottom right, #00ffff, #ff00ff);
     text-align: center;
     padding: 3vh;
+    height: 100%;
+}
+
+.main{
+    min-height: 90vh;
 }
 
 .card {

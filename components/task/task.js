@@ -7,9 +7,6 @@ const Task = () => {
     const options = [
         { value: 'createNew', label: 'Create a new club...' },
       ];
-    useEffect(() => {
-        console.log(selectedOption)
-    }, [selectedOption])
   return (
     <div>
         <form className={styles.main}>

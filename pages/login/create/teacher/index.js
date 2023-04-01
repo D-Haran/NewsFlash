@@ -26,8 +26,7 @@ const Teacher = () => {
             .then((querySnapshot)=>{               
                 const newData = querySnapshot.docs
                     .map((doc) => ({...doc.data(), id:doc.id }));
-                setSchools(newData);                
-                console.log(newData);
+                setSchools(newData);
             })
        
     }
@@ -166,10 +165,10 @@ const Teacher = () => {
               setRandomId(makeid(6))}}>Generate</button>
             <br />
             <label className={styles.labels}>Name of School</label>
-            <input className={styles.inputs} onChange={(e) => {setSchoolName(e.target.value); console.log(schoolName)}} />
+            <input className={styles.inputs} onChange={(e) => {setSchoolName(e.target.value)}} />
 
             <label className={styles.labels}>Abbreviated Name</label>
-            <input className={styles.inputs} onChange={(e) => {setAbbrev(e.target.value); console.log(abbrev)}} />
+            <input className={styles.inputs} onChange={(e) => {setAbbrev(e.target.value)}} />
         </div>
     }
         </Fragment>

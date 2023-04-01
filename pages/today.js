@@ -19,13 +19,11 @@ const Today = () => {
     const fetchUser = async () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-              console.log(user.uid)
                 const fetch = async() => {
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
             
                 if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
                     setCompleteSchoolName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
                     
                     setReturned(true)
@@ -59,17 +57,15 @@ const Today = () => {
         const docRef = doc(db, 'schools', completeSchoolName, 'announcements', date);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            console.log("Today's Announcement:", docSnap.data());
             setDocData(docSnap.data())
         } else {
-            console.log("no announcement", completeSchoolName)
+            console.log("no announcement")
         }
     }
 
 useEffect(() => {
     if (completeSchoolName !== "_null") {
         getAnnouncementToday()
-        console.log({completeSchoolName})
     }
     }, [returned, completeSchoolName])
     

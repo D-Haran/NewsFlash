@@ -161,16 +161,21 @@
 }
 
 
-.profileIcon {
-    filter: drop-shadow(0px 4px 4px #FC7753);
-}
+
 .profileIconUrl {
     filter: drop-shadow(0px 4px 4px #FC7753);
     border-radius: 50%;
     height: 3.3vh;
     width: 3.3vh;
     overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
 }
+
+.profileIconUrl:hover {
+    filter: drop-shadow(0px 4px 4px #ffffff);
+}
+
 .LogoIcon {
     position: relative;
     width: 4vh;
@@ -220,4 +225,7 @@
     padding-right: 2vw;
     font-size: 2vh;
     cursor: pointer;
+}
+.dropDownText:hover {
+    text-decoration: underline;
 }

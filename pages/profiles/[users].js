@@ -18,41 +18,40 @@ const Users = () => {
     const [changeAdminPopUp, setChangeAdminPopUp] = useState(false)
     const [teachersList, setTeachersList] = useState([])
     const [admin, setAdmin] = useState(false)
+    const [dateAdded, setDateAdded] = useState("")
     const teachers = []
-    console.log(router.asPath.substring(10,));
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
-          if (user.uid == userNamePath) {
-          setCurrentUsertest(user)
+          if (user) {
+            setCurrentUsertest(user)
+            if (user.uid == userNamePath) {
           const fetch = async() => {
             try{
-                const docRef = doc(db, "users", user.uid);
+                const docRef = doc(db, "users", userNamePath);
                 const docSnap = await getDoc(docRef);
     
                 if (docSnap.exists()) {
                   setDocData(docSnap.data())
                   setAdmin(docSnap.data().admin)
-                  console.log("Document data:", docSnap.data());
+                  // var oldDate = new Date();
+                  // var newDate = new Date(oldDate.toDateString());
+                  setDateAdded(new Date(docSnap.data().dateAdded).toLocaleDateString())
                   if (docSnap.data().role == "teacher") {
                     if (docSnap.data().admin) {
-                      console.log(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
                       const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers');
                     const snapshot = await getDocs(collectionRef);
                     const dataCount = await getCountFromServer(collectionRef)
-                    console.log(dataCount.data().count)
                     snapshot.forEach(doc => {
                       if (!doc.data().test) {
                         if (dataCount.data().count > teachers.length+2) {
                           if (doc.data().user_id !== user.uid) {
                             const teacherData = doc.data()
                             teacherData["database_doc_name"] = doc.id
-                            console.log(teacherData)
+                            teacherData["name"] = teacherData["name"] + " ("+teacherData["email"]+")"
                             teachers.push(teacherData)
                           }
                         }
                       }
-                        
-                        console.log(teachers)
                         
                     })
                     setTeachersList(teachers)
@@ -68,17 +67,17 @@ const Users = () => {
                 }
           }
           fetch()}
+          }
+          
         });
         
         
     }
     
       useEffect(() => {
-        if (!docData) {
-          fetchUser()
-        }
+        fetchUser()
         setUserNamePath(router.asPath.substring(10,))
-      }, [docData, router])
+      }, [userNamePath, router.asPath])
 
       const deletingUser = async(e) => {
         e.preventDefault()
@@ -91,7 +90,6 @@ const Users = () => {
                     const docRefTeacherAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "teachers", docData.database_doc_name || currentUsertest.uid)
                     await deleteDoc(docRefTeacherAccount)
                   } else if (docData.role == "student") {
-                    console.log(docData.school_abbreviated+"_"+docData.school_id)
                     const docRefStudentAccount = doc(db, "schools", docData.school_abbreviated+"_"+docData.school_id, "students", docData.database_doc_name)
                     await deleteDoc(docRefStudentAccount)
                   if (docData.waiting_approval) {
@@ -99,7 +97,6 @@ const Users = () => {
                     await deleteDoc(docRefStudentAccountRequest)
                   }
                   }
-                console.log("Deleted")
                 deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
                 }
                 else if (docData.admin == true) {
@@ -117,7 +114,6 @@ const Users = () => {
                     await deleteDoc(docRefTeacherAccount)
                     await deleteDoc(docRefUser)
                   }
-                console.log("Deleted")
                 deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
                   }
                 }
@@ -150,15 +146,19 @@ const Users = () => {
         }
         <span className={styles.name}>{docData.name}</span>
             <br />
-            <span className={styles.details}>{docData.school_name}</span>
+            <span className={styles.details}><b>Email:</b> {docData.email}</span>
             <br />
-            <span className={styles.details}>{docData.school_id}</span>
             <br />
-            <span className={styles.details}>{docData.dateAdded}</span>
+            <span className={styles.details}><b>School:</b> {docData.school_name}</span>
+            <br />
+            <span className={styles.details}><b>School ID:</b> {docData.school_id}</span>
+            <br />
+            <span className={styles.details}><b>Date Created:</b> {dateAdded}</span>
             <br />
             <span className={styles.details}>
+            <b>Role: </b>
             {docData.role == "teacher" && 
-              <Fragment>{docData.admin && "Admin "}</Fragment>}
+              <Fragment>{docData.admin && " Admin "}</Fragment>}
               {docData.role}
             </span>
             <br />

@@ -15,6 +15,7 @@
 .title {
   padding: 1vh;
   text-align: center;
+  text-decoration: underline;
 }
 
 .card {

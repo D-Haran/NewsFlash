@@ -19,8 +19,6 @@ const TaskAdded = (props) => {
     const deleteTask = (id) => {
         const newList = completeNote.filter((item) => item.id !== id);
         setNotes(newList);
-        console.log(newList)
-        console.log(noteAdded)
     }
 
     const handleEdit = (e) => {

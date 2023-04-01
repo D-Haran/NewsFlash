@@ -34,28 +34,20 @@ const Navbar = () => {
           const fetch = async() => {
             try{
                 setUserId(user.uid)
-                const docRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(docRef);
-    
-                if (docSnap.exists()) {
-                  console.log("Document data:", docSnap.data());
-                } else {
-                  console.log("No such document!");
-                }
                 } catch {
     
                 }
           }
-          fetch()}
+          fetch()} else {
+            router.push("/")
+          }
         });
         
         
     }
-    
-      console.log(auth)
       useEffect(() => {
         fetchUser()
-      })
+      }, [])
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -104,6 +96,7 @@ const Navbar = () => {
         {
             profileClicked && 
             <div className={styles.profileDropDown}>
+            <div>
             {
                 isLoggedIn &&
                 <div>
@@ -122,7 +115,7 @@ const Navbar = () => {
                     </ul>
                     
                 </div>
-            }
+            } 
             {
                 isLoggedIn === false &&
                 <div>
@@ -130,9 +123,7 @@ const Navbar = () => {
                 </div>
 
             }
-            
-
-            
+            </div>
         </div>
         }
         

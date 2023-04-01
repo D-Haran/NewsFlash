@@ -19,10 +19,8 @@ export default function Login() {
         setButtonclicked(true)
         try {
 const result = await signInWithPopup(auth, googleAuth) || null;
-        console.log(result)
         if (result) {
             setButtonclicked(false)
-            console.log(result.user.displayName)
             if (localStorage.getItem("displayName") === null) {
                 localStorage.setItem("displayName", result.user.displayName)
             }
@@ -56,7 +54,6 @@ const result = await signInWithPopup(auth, googleAuth) || null;
         }
         } catch(err) {
             setButtonclicked(false)
-            console.log(err.code.slice(5, ).replace(/-/g, " "))
             setErrorCode(err.code.slice(5, ).replace(/-/g, " "))
         }
         

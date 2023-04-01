@@ -46,14 +46,11 @@ const PastAnnouncements = () => {
   const fetchUser = async () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log(user.uid)
-        
             const fetch = async() => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
         
             if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
                 setCompleteSchoolName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
                 
                 setReturned(true)
@@ -77,11 +74,9 @@ const getAnnouncementToday = async(clickedDate) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setAnnouncementBool(true)
-        console.log("Today's Announcement:", docSnap.data());
         setDocData(docSnap.data())
         Modal.setAppElement(el)
     } else {
-        console.log("no announcement", completeSchoolName)
         setAnnouncementBool(false)
     }
   } catch (err) {
@@ -109,8 +104,7 @@ useEffect(() => {
         var date = JSON.stringify(value.getFullYear()+'.'+(value.getMonth()+1)+'.'+value.getDate()).replace("\"", "").replace("\"", "");
         setClickedDayDate(value.toDateString())     
         var nextDay = new Date(value);
-        nextDay.setDate(value.getDate() + 1);   
-        console.log(nextDay)       
+        nextDay.setDate(value.getDate() + 1);      
         setClickedDay(date); 
         setIsOpen(true)
         getAnnouncementToday(date)

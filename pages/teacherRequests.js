@@ -23,13 +23,11 @@ const TeacherRequests = () => {
           const fetch = async() => {
             try{
                 const docRef = doc(db, "users", user.uid);
-                console.log({user})
                 const docSnap = await getDoc(docRef);
     
                 if (docSnap.exists()) {
                   setDocData(docSnap.data())
                   setAdmin(docSnap.data().admin)
-                  console.log(docSnap.data().admin)
                   if (docSnap.data().role == "teacher") {
                     const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests');
                     const snapshot = await getDocs(collectionRef);
@@ -38,7 +36,6 @@ const TeacherRequests = () => {
                         if (dataCount.data().count > requests.length) {
                            requests.push(doc.data())
                         }
-                        console.log(requests) 
                     })
                     setAllRequests(requests)
                   }
@@ -70,14 +67,11 @@ const TeacherRequests = () => {
           if (admin) {
             const approve = async() => {
               const docRef = doc(db, "users", user.uid);
-              console.log({user})
               const docSnap = await getDoc(docRef);
   
               if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
                 if (docSnap.data().role == "teacher") {
                   await deleteDoc(doc(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests', id));
-                  console.log('deleted')
 
                   const collectionRefUser = doc(db, 'users', id)
                   await updateDoc((collectionRefUser), {
@@ -85,7 +79,6 @@ const TeacherRequests = () => {
                     role: "teacher",
                     waiting_approval: false,
                   })
-                  console.log("editted")
 
                   await setDoc(doc(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teachers', database_doc_name), {
                     admin: false,
@@ -96,7 +89,6 @@ const TeacherRequests = () => {
                     database_doc_name: database_doc_name,
                     dateAdded: Date().toLocaleString()
               })
-                  console.log("added")
 
                 requests.splice(idx, 1)
                 setAllRequests(requests)
@@ -119,7 +111,6 @@ const TeacherRequests = () => {
         if (user) {
         const deny = async() => {
               const docRef = doc(db, "users", user.uid);
-              console.log({user})
               const docSnap = await getDoc(docRef);
   
               if (docSnap.exists()) {
@@ -130,7 +121,6 @@ const TeacherRequests = () => {
                     waiting_approval: false,
                   })
                   await deleteDoc(doc(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests', id));
-                  console.log('deleted')
                 requests.splice(idx, 1)
                 setAllRequests(requests)
                 }
@@ -157,7 +147,6 @@ useEffect(() => {
         <div className={styles.cardContainer}>
         {
             allRequests.map((item, idx) => {
-                console.log(item.id)
                 if (!item.test) {
                     return (
                     <div key={idx} className={styles.card}>

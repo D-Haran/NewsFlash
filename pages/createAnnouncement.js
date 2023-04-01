@@ -37,24 +37,19 @@ const CreateAnnouncement = () => {
     const fetchUser = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-              console.log(user.uid)
                 setUser(user)
         const fetch = async() => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
     
             if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            
             setSchoolName(docSnap.data().school_name)
             setSchoolId(docSnap.data().school_id)
             setSchoolAbbrev(docSnap.data().school_abbreviated)
             setCompleteSchoolName(schoolAbbrev+"_"+schoolId)
-            console.log("hey", docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             checkAnnouncementExist(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             setRole(docSnap.data().role)
             } else {
-            console.log("No such document!");
             router.replace("/login")
             }
         }
@@ -84,7 +79,6 @@ const checkAnnouncementExist = async(complete) => {
     const docSnap = await getDoc(doc(db, 'schools', complete, 'announcements', date))
 
     if (docSnap.exists()) {
-        console.log("Already Announced:", docSnap.data());
         if (!notesAdded) {
             setNotes(notes.concat(docSnap.data().notes))
             const newOptions = [{ value: 'createNew', label: 'Create a new club...' }]
@@ -155,7 +149,6 @@ const checkAnnouncementExist = async(complete) => {
             setConfirmClub(false)
             const newNote = {id: Math.random(), title: title, description: description, club: selectedOption}
             setTaskAdded(newNote)
-            console.log(newNote)
         setNotes(notes.concat(newNote))
         setTitle("")
         setDescription("")

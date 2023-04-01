@@ -23,6 +23,7 @@ export default function Home() {
   const [teacherRequestLength, setTeacherRequestLength] = useState(0);
   const [studentCount, setStudentCount] = useState(0);
   const [teacherCount, setTeacherCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   function openModal() {
     setIsOpen(true);
@@ -36,17 +37,14 @@ export default function Home() {
       const fetch = async() => {
         try{
             const docRef = doc(db, "users", user.uid);
-            console.log({user})
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
               setDocData(docSnap.data())
-              console.log("Document data:", docSnap.data());
               if (docSnap.data().role == "teacher") {
                 setIsTeacher(true)
                 const collectionRef = collection(db, 'schools', docSnap.data().school_abbreviated+"_"+docSnap.data().school_id, 'teacher_requests');
                 const snapshot = await getCountFromServer(collectionRef);
-                console.log("snapshot data", snapshot.data().count);
                 setTeacherRequestLength(snapshot.data().count - 1)
               }
               
@@ -66,7 +64,9 @@ export default function Home() {
                 setTeacherCount(dataCount.data().count)
                 }
               }
+              setLoading(false)
             } else {
+              setLoading(false)
               router.replace("/login")
               console.log("No such document!");
             }
@@ -80,19 +80,10 @@ export default function Home() {
     
 }
 
-  console.log(auth)
   useEffect(() => {
     fetchUser()
     setDisplayName(localStorage.getItem('displayName'))
-    console.log(auth.lastNotifiedUid)
   }, [])
-
-  const options = [
-    { value: 'createNew', label: 'Create a new club...' },
-  ];
-useEffect(() => {
-    console.log(selectedOption)
-}, [selectedOption])
 
   return (
     <div className={styles.container}>
@@ -110,12 +101,12 @@ useEffect(() => {
         <p className={styles.description}>
         {docData && <Fragment>{docData.school_name}</Fragment>}
         {!docData &&
-          <Fragment>For School/Business Purposes</Fragment>
+          <Fragment>Connected Classrooms, Informed Students.</Fragment>
         }
           
         </p>
         {isLoggedIn &&
-    <p>Hello <b>{displayName}</b> ({docData && <Fragment>{docData.role == "teacher" && <Fragment>{docData.admin && "Admin "}</Fragment>}{docData.role}{docData.waiting_approval && <Fragment> waiting for teacher approval</Fragment>}</Fragment> })</p>
+      <p>Hello <b>{displayName}</b> {!loading &&  <Fragment>({docData && <Fragment>{docData.role == "teacher" && <Fragment>{docData.admin && "Admin "}</Fragment>}{docData.role}{docData.waiting_approval && <Fragment> waiting for teacher approval</Fragment>}</Fragment> }</Fragment>}) {loading && "(loading...)"}</p>
       }
         
 
