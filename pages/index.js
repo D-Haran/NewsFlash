@@ -130,17 +130,6 @@ export default function Home() {
           </Link>
           
             
-            <div className={styles.card} onClick={(e) => {signOut(auth).then(function() {
-            e.preventDefault()
-            console.log('Signed Out');
-            localStorage.removeItem("displayName")
-            router.reload()
-          }, function(error) {
-            console.error('Sign Out Error', error);
-          });}}>
-            <h2>&larr; Log out </h2>
-            <p>{"Log out of google account"}</p>
-          </div>
           {
             isTeacher &&
             <Fragment>
@@ -163,9 +152,22 @@ export default function Home() {
             
             </Fragment>
             
-          }          
+          }       
+          <div className={styles.card} onClick={(e) => {signOut(auth).then(function() {
+            e.preventDefault()
+            console.log('Signed Out');
+            localStorage.removeItem("displayName")
+            router.reload()
+          }, function(error) {
+            console.error('Sign Out Error', error);
+          });}}>
+            <h2>&larr; Log out </h2>
+            <p>{"Log out of google account"}</p>
+          </div>   
             </Fragment>
+            
         }
+        
         </div>
       </main>
 
