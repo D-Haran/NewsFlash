@@ -70,7 +70,7 @@ const Teacher = () => {
             data: 'test',
         })
           await addDoc(collection(db, 'schools', collectionName, 'students'), {
-            name: 'nothing yet',
+            test: 'test',
             dateAdded: Date().toLocaleString()
         })
         //   await addDoc(collection(db, 'schools', collectionName, 'teachers'), {

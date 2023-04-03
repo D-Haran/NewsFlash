@@ -38,6 +38,8 @@ const SchoolList = () => {
                 snapshot.forEach(doc => {
                     if (dataCount.data().count > students.length) {
                       if (snapshot.data().test == "test") {
+                        
+                      } else {
                         students.push(doc.data())
                       }
                     }
