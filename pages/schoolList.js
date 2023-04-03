@@ -44,7 +44,7 @@ const SchoolList = () => {
                       }
                     }
                     setStudentsList(students)
-                    setStudentCount(dataCount.data().count)
+                    setStudentCount(dataCount.data().count - 1)
                 })
                 }
                 
