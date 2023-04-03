@@ -3,7 +3,7 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router';
 import {auth, db} from '../../firebase'
-import {useState, useContext, useEffect, Fragment} from 'react'
+import {useState, useEffect, Fragment} from 'react'
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import {signOut, onAuthStateChanged} from 'firebase/auth'
 import LoadingBar from 'react-top-loading-bar'

@@ -6,7 +6,6 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/router'
 import {auth, db} from "../../firebase"
-import { createContext, useEffect } from 'react'
 
 export default function Login() {
     const router = useRouter()

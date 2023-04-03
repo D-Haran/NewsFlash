@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import {auth, db} from '../firebase'
-import {useState, useContext, useEffect, Fragment} from 'react'
+import {useState, useEffect, Fragment} from 'react'
 import styles from '../styles/teacherRequests.module.css'
 import { collection, getDocs, deleteDoc, doc, updateDoc, setDoc, addDoc, getDoc, get, getCountFromServer} from "firebase/firestore";
 import { useRouter } from 'next/router'

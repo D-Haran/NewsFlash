@@ -1,11 +1,11 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import {auth, db} from '../../firebase'
-import {useState, useContext, useEffect, Fragment} from 'react'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc, getCountFromServer, updateDoc  } from "firebase/firestore";
+import {useState, useEffect, Fragment} from 'react'
+import { collection, getDocs, doc, getDoc, deleteDoc, getCountFromServer, updateDoc  } from "firebase/firestore";
 import {signOut, onAuthStateChanged, deleteUser, getAuth} from 'firebase/auth'
 import styles from "../../styles/user.module.css"
-import Select, { components } from 'react-select'
+import Select from 'react-select'
 
 const Users = () => {
     const router = useRouter()
