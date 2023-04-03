@@ -145,7 +145,7 @@ export default function Home() {
             </Link>
             <Link href="/schoolList" className={styles.card}>
               <h2>Student & Teacher List &rarr;</h2>
-              <p>Get list of all <b>{studentCount+teacherCount}</b> teachers & students at {schoolAbbrev}</p>
+              <p>Get list of all <b>{studentCount+teacherCount - 2}</b> teachers & students at {schoolAbbrev}</p>
             </Link>
           </Fragment>
         }
