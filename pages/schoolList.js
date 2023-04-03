@@ -37,7 +37,9 @@ const SchoolList = () => {
                 const dataCount = await getCountFromServer(collectionRef)
                 snapshot.forEach(doc => {
                     if (dataCount.data().count > students.length) {
-                       students.push(doc.data())
+                      if (snapshot.data().test == "test") {
+                        students.push(doc.data())
+                      }
                     }
                     setStudentsList(students)
                     setStudentCount(dataCount.data().count)
