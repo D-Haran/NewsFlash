@@ -57,6 +57,9 @@ const SchoolList = () => {
                 snapshot.forEach(doc => {
                     if (dataCount.data().count > teachers.length) {
                       const teacherData = doc.data()
+                      if (doc.data().test == "test") {
+                        
+                      } else {
                       if (doc.data().user_id == user.uid) {
                         teacherData["name"] = teacherData["name"] + " (You)"
                         teachers.push(teacherData)
@@ -64,8 +67,9 @@ const SchoolList = () => {
                         teachers.push(teacherData)
                       }
                     }
+                  }
                     setTeachersList(teachers)
-                    setTeacherCount(dataCount.data().count)
+                    setTeacherCount(dataCount.data().count - 1)
                     
                 })
               }
