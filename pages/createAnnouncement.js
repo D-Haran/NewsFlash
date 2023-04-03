@@ -83,7 +83,6 @@ const checkAnnouncementExist = async(complete) => {
             setNotes(notes.concat(docSnap.data().notes))
             const newOptions = [{ value: 'createNew', label: 'Create a new club...' }]
             docSnap.data().notes.map((item) => {
-                console.log(item.club)
                 newOptions.push({value: item.club.value, label:item.club.label})            
         })
             const uniqueDates = [];

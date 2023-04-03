@@ -38,9 +38,6 @@ useEffect(() => {
   useEffect(() => {
     fetchPost()
 }, [])
-  useEffect(() => {
-    console.log(selectedOption)
-}, [selectedOption])
 
 const options = [
   ...schools

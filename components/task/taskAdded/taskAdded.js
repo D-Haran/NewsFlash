@@ -22,9 +22,6 @@ const TaskAdded = (props) => {
     }
 
     const handleEdit = (e) => {
-        e.preventDefault()
-        console.log(numbered)
-        console.log(completeNote[numbered].title)
         completeNote[numbered].title = title
         completeNote[numbered].description = description
         setEditting(false)
