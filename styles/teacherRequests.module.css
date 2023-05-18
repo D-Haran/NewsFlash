@@ -1,5 +1,5 @@
 .container {
-    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+    background: #fff;
 }
 
 
@@ -25,7 +25,7 @@
   .noRequests {
     border-radius: 12px;
     padding: 1.5%;
-    background-color: #fff;
+    background-color: #ff9500;
     text-align: center;
     margin: 0;
     position: absolute;

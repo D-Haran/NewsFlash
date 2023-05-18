@@ -1,5 +1,5 @@
 .container {
-    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+    background: #ff9500;
     text-align: center;
     padding: 3vh;
     height: 100%;
@@ -7,6 +7,10 @@
 
 .main{
     min-height: 90vh;
+}
+
+.delete {
+  cursor: pointer;
 }
 
 .card {

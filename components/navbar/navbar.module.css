@@ -1,5 +1,6 @@
 .container {
-    background-color: #13ffff22;
+    /* background-color: #13ffff22; */
+    background-color: #f7eeee;
     width: 100%;
     z-index: 500;
     padding: 0 2rem;
@@ -10,7 +11,7 @@
     font-size: 1.5vh;
     display: grid;
     grid-template-columns: 1fr;
-    filter: drop-shadow(0px 4px 4px #53bbfc);
+    filter: drop-shadow(0px 4px 4px #ff8800);
     -ms-overflow-style: none;
     scrollbar-width: none; 
     overflow-y: scroll; 
@@ -34,7 +35,7 @@
         top: 50%;
     width: 50%;
     text-align: center;
-    background: linear-gradient(to bottom right, #00ffff, #ff00ff);
+    background: #ff9500;
     color: #ffffff;
     border-radius: 7px;
     transition: all 0.2s ease-out;
@@ -46,7 +47,7 @@
     height: 4vh;
     width: 60%;
     font-size: 1.5vh;
-    background: linear-gradient(to top left, #00ffff, #ff00ff);
+    background: #ff9500;
 }
 
 .searchContainer {

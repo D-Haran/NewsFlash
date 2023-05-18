@@ -16,6 +16,7 @@ const SchoolList = () => {
   const [teachersList, setTeachersList] = useState([])
   const [teacherCount, setTeacherCount] = useState(0)
   const [studentCount, setStudentCount] = useState(0)
+  const [schoolUserName, setSchoolUserName] = useState(null)
   const students = []
   const teachers = []
   const fetchUser = () => {
@@ -29,6 +30,7 @@ const SchoolList = () => {
 
             if (docSnap.exists()) {
               setDocData(docSnap.data())
+              setSchoolUserName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
               setAdmin(docSnap.data().admin)
               if (docSnap.data().role == "teacher") {
                 if (docSnap.data().admin) {
@@ -36,7 +38,7 @@ const SchoolList = () => {
                 const snapshot = await getDocs(collectionRef);
                 const dataCount = await getCountFromServer(collectionRef)
                 snapshot.forEach(doc => {
-                    if (dataCount.data().count > students.length) {
+                    if (dataCount.data().count - 1 > students.length) {
                       if (doc.data().test == "test") {
                         
                       } else {
@@ -62,8 +64,10 @@ const SchoolList = () => {
                       } else {
                       if (doc.data().user_id == user.uid) {
                         teacherData["name"] = teacherData["name"] + " (You)"
+                        teacherData["you"] = true
                         teachers.push(teacherData)
                       } else {
+                        teacherData["userName"] = doc.id
                         teachers.push(teacherData)
                       }
                     }
@@ -111,11 +115,16 @@ fetchUser()
       }
 }, [admin])
 
-// const deleteUser = async(role, username) => {
-//   if (role == "student") {
-//     await deleteDoc(doc(db, 'schools', docData.school_abbreviated+"_"+docData.school_id, 'students', username))
-//   }
-// }
+const deleteUser = async(role, username, id) => {
+  if (role == "student") {
+    await deleteDoc(doc(db, 'schools', schoolUserName, 'students', username))
+    await deleteDoc(doc(db, 'users', id)).then(console.log("deleted"))
+  }
+  else if (role == "teacher") {
+    await deleteDoc(doc(db, 'schools', schoolUserName, 'teachers', username))
+    await deleteDoc(doc(db, 'users', id)).then(console.log("deleted"))
+  }
+}
   
   return (
     <div className={styles.container}>
@@ -126,8 +135,15 @@ fetchUser()
         <div className={styles.cardContainer}>
         {teachersList.map((teacher, idx) => {
           if (teacher.email) {
+            console.log(teacher)
             return(
             <div key={idx} className={styles.card}>
+            {!teacher.you &&
+              <p onClick={() => {
+              deleteUser("teacher", teacher.userName, teacher.user_id).then(fetchUser())
+            }} className={styles.delete}>x</p>
+            }
+            
               <p>{teacher.name}</p>
               <p>{teacher.email}</p>
             </div>
@@ -142,8 +158,12 @@ fetchUser()
         <div className={styles.cardContainer}>
         {studentsList.map((student, idx) => {
           if (student.email) {
+            console.log(student)
             return(
             <div key={idx} className={styles.card}>
+            <p onClick={() => {
+              deleteUser("student", student.userName, student.user_id).then(fetchUser())
+            }} className={styles.delete}>x</p>
                 <p>{student.name}</p>
               <p>{student.email}</p>
             </div>

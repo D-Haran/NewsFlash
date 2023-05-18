@@ -64,6 +64,7 @@ const handleSubmit = async(e) => {
             name: localStorage.getItem("displayName"),
             email: email,
             userName: userName,
+            user_id: userId,
             dateAdded: Date().toLocaleString()
         })
       

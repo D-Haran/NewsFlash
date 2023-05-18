@@ -1,6 +1,6 @@
 .container {
   padding: 0 2rem;
-  background: linear-gradient(45deg, #00ffff, #ff00ffd6);
+  background: rgb(255, 255, 255);
   background-size: 300% 300%;
   animation: gradient 15s ease infinite;
 }
@@ -47,7 +47,7 @@
 }
 
 .title a {
-  color: #0099ff;
+  color: #ff9500;
   text-decoration: none;
 }
 
@@ -114,8 +114,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #67acfa;
+  color: #ff9500;
+  border-color: #ff9500;
 }
 
 .card h2 {
@@ -150,7 +150,7 @@
 @media (prefers-color-scheme: dark) {
   .card,
   .footer {
-    border-color: #ffffff;
+    border-color: #000000;
   }
   .code {
     background: #ffffff;
