@@ -94,6 +94,7 @@ const UpcomingEvents = () => {
 
       const handleCreateEvent = async(e) => {
         e.preventDefault()
+        console.log(user)
         // const dateNow = new Date()
         //         var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
                 await addDoc(collection(db, 'schools', completeSchoolName, 'events'), {
@@ -105,6 +106,20 @@ const UpcomingEvents = () => {
                     dateAdded: Date().toLocaleString(),
                     // createdBy: {name: user.displayName, email: user.email}
                 }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
+                const chosenDate = new Date(dateTime)
+                var dateNow = new Date(chosenDate)
+                dateNow.setDate(chosenDate.getDate() + 1)
+                const date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "")
+                await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
+                  notes: [{
+                    title: title,
+                    description: description,
+                  club: club}],  
+                  createdBy: {name: user.name, email: user.email},
+                    dateAdded: Date().toLocaleString(),
+                    // createdBy: {name: user.displayName, email: user.email}
+                }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
+
       }
     return (
         <div className={styles.container}>

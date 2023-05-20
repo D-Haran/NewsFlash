@@ -28,6 +28,11 @@ const Event = (props) => {
       console.log(completeSchoolName)
       try {
           await deleteDoc(doc(db, 'schools', completeSchoolName, "events", id)).then(console.log("deleted")).then(router.reload)
+          const chosenDate = new Date(dateTime)
+          var dateNow = new Date(chosenDate)
+          dateNow.setDate(chosenDate.getDate() + 1)
+          const date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "")
+          await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date))
       } catch (err) {
         console.log(err)
       }

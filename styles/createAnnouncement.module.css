@@ -70,7 +70,7 @@
 
   .createClubForm {
     border: #ffffff;
-    background: #ff9500;
+      background: linear-gradient(to top, #ff9500, #ffffff);
     margin-top: 1rem;
     padding: 1.5%;
     border-radius: 10px;
@@ -189,7 +189,7 @@
   }
 
   .createTask {
-    background-color: #3210ab;
+    background-color: #ff9500;
     color: #fff;
     border: none;
     padding: 10px 20px;
