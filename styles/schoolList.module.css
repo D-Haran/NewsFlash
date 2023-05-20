@@ -1,5 +1,5 @@
 .container {
-    background: #ff9500;
+  background: linear-gradient(to top, #ff9500, #ffffff);
     text-align: center;
     padding: 3vh;
     height: 100%;

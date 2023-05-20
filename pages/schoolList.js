@@ -132,9 +132,14 @@ const deleteUser = async(userInfo) => {
     <div className={styles.container}>
     <main className={styles.main}>
     {deletePopUp &&
-      <div onClick={() => {
-        deleteUser(deleteMember).then(setDeletePopUp(false)).then(fetchUser())
-      }} className={styles.deleteUserPopup}>Are you sure you want to remove user?
+      <div className={styles.deleteUserPopup}>
+        <div>
+          Are you sure you want to remove user?
+        </div>
+        <button onClick={() => {
+          deleteUser(deleteMember).then(setDeletePopUp(false)).then(fetchUser())
+        }}>Remove Student</button>
+        <button onClick={() => {setDeletePopUp(false)}}>Cancel</button>
       </div>
     }
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
