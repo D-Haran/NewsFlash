@@ -7,6 +7,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+::selection {
+  background: #ff9500;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -15,6 +19,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+::selection {
+  background: #ff95009c;
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {

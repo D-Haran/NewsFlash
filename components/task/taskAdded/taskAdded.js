@@ -26,9 +26,6 @@ const TaskAdded = (props) => {
         completeNote[numbered].description = description
         setEditting(false)
     }
-
-    useEffect(() => {
-    }, [completeNote, numbered])
     
   return (
     <div className={styles.container}>

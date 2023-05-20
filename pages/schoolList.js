@@ -12,9 +12,11 @@ const SchoolList = () => {
   const [docData, setDocData] = useState(null)
   const [admin, setAdmin] = useState(null)
   const [user, setUser] = useState(null)
+  const [deleteMember, setDeleteMember] = useState(null)
   const [studentsList, setStudentsList] = useState([])
   const [teachersList, setTeachersList] = useState([])
   const [teacherCount, setTeacherCount] = useState(0)
+  const [deletePopUp, setDeletePopUp] = useState(false)
   const [studentCount, setStudentCount] = useState(0)
   const [schoolUserName, setSchoolUserName] = useState(null)
   const students = []
@@ -115,20 +117,26 @@ fetchUser()
       }
 }, [admin])
 
-const deleteUser = async(role, username, id) => {
-  if (role == "student") {
-    await deleteDoc(doc(db, 'schools', schoolUserName, 'students', username))
-    await deleteDoc(doc(db, 'users', id)).then(console.log("deleted"))
+const deleteUser = async(userInfo) => {
+  if (userInfo[0] == "student") {
+    await deleteDoc(doc(db, 'schools', schoolUserName, 'students', userInfo[1]))
+    await deleteDoc(doc(db, 'users', userInfo[2])).then(console.log("deleted"))
   }
-  else if (role == "teacher") {
-    await deleteDoc(doc(db, 'schools', schoolUserName, 'teachers', username))
-    await deleteDoc(doc(db, 'users', id)).then(console.log("deleted"))
+  else if (userInfo[0] == "teacher") {
+    await deleteDoc(doc(db, 'schools', schoolUserName, 'teachers', userInfo[1]))
+    await deleteDoc(doc(db, 'users', userInfo[2])).then(console.log("deleted"))
   }
 }
   
   return (
     <div className={styles.container}>
     <main className={styles.main}>
+    {deletePopUp &&
+      <div onClick={() => {
+        deleteUser(deleteMember).then(setDeletePopUp(false)).then(fetchUser())
+      }} className={styles.deleteUserPopup}>Are you sure you want to remove user?
+      </div>
+    }
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <h1>School List</h1>
         <h2>Teachers: <b>{teacherCount}</b></h2>
@@ -140,7 +148,8 @@ const deleteUser = async(role, username, id) => {
             <div key={idx} className={styles.card}>
             {!teacher.you &&
               <p onClick={() => {
-              deleteUser("teacher", teacher.userName, teacher.user_id).then(fetchUser())
+              setDeleteMember(["teacher", teacher.userName, teacher.user_id])
+              setDeletePopUp(true)
             }} className={styles.delete}>x</p>
             }
             
@@ -162,7 +171,8 @@ const deleteUser = async(role, username, id) => {
             return(
             <div key={idx} className={styles.card}>
             <p onClick={() => {
-              deleteUser("student", student.userName, student.user_id).then(fetchUser())
+              setDeleteMember(["student", student.userName, student.user_id])
+              setDeletePopUp(true)
             }} className={styles.delete}>x</p>
                 <p>{student.name}</p>
               <p>{student.email}</p>

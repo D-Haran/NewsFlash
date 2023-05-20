@@ -3,7 +3,7 @@ import Task from '../components/task/task'
 import { useRouter } from 'next/router'
 import Select, { components } from 'react-select'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc } from "firebase/firestore";
 import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/createAnnouncement.module.css'
@@ -111,17 +111,30 @@ const checkAnnouncementExist = async(complete) => {
         if (role == "teacher") {
           setLoading(true)
         try {
-            const dateNow = new Date()
-        var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
-        await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
-            notes: notes,
-            dateAdded: Date().toLocaleString(),
-            createdBy: {name: user.displayName, email: user.email}
-        }).then(
-            setReleased(true)
-        ).then(router.replace("/"))
+            if (notes.length == 0) {
+                const dateNow = new Date()
+                var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
+                console.log(date)
+                await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date)
+            ).then(
+                setReleased(true)
+            ).then(router.replace("/")) }
+
+            if (notes.length >= 1) {
+                    const dateNow = new Date()
+                var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
+                await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
+                    notes: notes,
+                    dateAdded: Date().toLocaleString(),
+                    createdBy: {name: user.displayName, email: user.email}
+                }).then(
+                    setReleased(true)
+                ).then(router.replace("/"))
+            }
+            
         } catch {
             setLoading(false)
+            console.log("Rejected")
         }  
         }
         else {
