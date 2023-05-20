@@ -141,10 +141,15 @@ const UpcomingEvents = () => {
                     <div key={idx}>
                         <Event 
                         title={event.title} 
+                        setTitle={event.setTitle} 
                         description={event.description}
+                        setDescription={event.setDescription}
                         dateTime={event.dateTime}
+                        setDateTime={event.setDateTime}
                         location={event.location}
+                        setLocation={event.setLocation}
                         club={event.club}
+                        setClub={event.setClub}
                         id={event.id}
                         admin={isAdmin}
                         completeSchoolName={completeSchoolName}
