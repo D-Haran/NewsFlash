@@ -1,0 +1,33 @@
+.container {
+    text-align: center;
+}
+
+.eventsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.createContainer {
+    background: linear-gradient(to top, #ff9500, #ffffff);
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    height: max-content;
+    padding-bottom: 15vh;
+        --mask:
+          radial-gradient(104.05px at 50% calc(100% - 146.25px),#000 99%,#0000 101%) calc(50% - 130px) 0/260px 100%,
+          radial-gradient(104.05px at 50% calc(100% + 81.25px),#0000 99%,#000 101%) 50% calc(100% - 65px)/260px 100% repeat-x;
+        -webkit-mask: var(--mask);
+                mask: var(--mask);
+}
+
+.inputs {
+    border-radius: 5px;
+    border: none;
+    margin: 12px;
+    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+}

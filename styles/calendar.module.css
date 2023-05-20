@@ -1,6 +1,6 @@
 .container {
     padding: 0 2rem;
-    background: #ff9500;
+    background: linear-gradient(to top, #ff9500, #ffffff);
   }
   
   .main {

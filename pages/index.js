@@ -128,6 +128,10 @@ export default function Home() {
             <h2>Past Announcements &rarr;</h2>
             <p>{"Check out the past announcements"}</p>
           </Link>
+          <Link href="/events" className={styles.card}>
+            <h2>Events &rarr;</h2>
+            <p>{`Check out upcoming events in ${schoolName}`}</p>
+          </Link>
           
             
           {

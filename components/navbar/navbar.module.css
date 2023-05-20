@@ -215,7 +215,7 @@
     right: 7vw;
     border-bottom-left-radius: 1.1vh;
     border-bottom-right-radius: 1.1vh;
-    background: rgba(83, 252, 224, 0.566);
+    background: #f8b353;
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.47 );
     backdrop-filter: blur( 11.5px );
     -webkit-backdrop-filter: blur( 11.5px );

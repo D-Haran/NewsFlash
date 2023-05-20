@@ -66,6 +66,9 @@ const Teacher = () => {
           await addDoc(collection(db, 'schools', collectionName, 'announcements'), {
             data: 'Hello there World',
         })
+          await addDoc(collection(db, 'schools', collectionName, 'events'), {
+            __: '__',
+        })
           await addDoc(collection(db, 'schools', collectionName, 'teacher_requests'), {
             data: 'test',
         })

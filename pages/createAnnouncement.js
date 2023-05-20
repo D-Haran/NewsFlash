@@ -3,7 +3,7 @@ import Task from '../components/task/task'
 import { useRouter } from 'next/router'
 import Select, { components } from 'react-select'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/createAnnouncement.module.css'
@@ -115,8 +115,10 @@ const checkAnnouncementExist = async(complete) => {
                 const dateNow = new Date()
                 var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
                 console.log(date)
-                await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date)
-            ).then(
+                await updateDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
+                    dateAdded: Date().toLocaleString(),
+                    createdBy: {name: user.displayName, email: user.email}
+                }).then(
                 setReleased(true)
             ).then(router.replace("/")) }
 
