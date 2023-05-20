@@ -116,8 +116,11 @@ const UpcomingEvents = () => {
                 <label>Title: </label>
                     <input className={styles.inputs} value={title} onChange={(e) => {e.preventDefault(); setTitle(e.target.value)}}/>
                     <br />
-                <label>Description: </label>
+                    <div className={styles.formTextArea}>
+                                    <label>Description: </label>
                     <textarea className={styles.inputs}value={description} onChange={(e) => {e.preventDefault(); setDescription(e.target.value)}} />
+
+                    </div>
                     <br />
                 <label>Date/Time: </label>
                     <input type="date" className={styles.inputs} value={dateTime} onChange={(e) => {e.preventDefault(); setDateTime(e.target.value); console.log(e.target.value)}} />
