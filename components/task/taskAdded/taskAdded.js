@@ -18,6 +18,7 @@ const TaskAdded = (props) => {
 
     const deleteTask = (id) => {
         const newList = completeNote.filter((item) => item.id !== id);
+        console.log(newList)
         setNotes(newList);
     }
 
@@ -32,7 +33,7 @@ const TaskAdded = (props) => {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         {viewing &&
             <Fragment>
-                <div onClick={() => {deleteTask(individualNoteAdded.id)}} className={styles.exit}>
+                <div onClick={() => {deleteTask(notes.id)}} className={styles.exit}>
                     <p className={styles.ps}>X</p>
                 </div>
                 <div className={styles.edit}>

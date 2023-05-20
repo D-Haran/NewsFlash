@@ -104,7 +104,7 @@ const UpcomingEvents = () => {
                     club: club,
                     dateAdded: Date().toLocaleString(),
                     // createdBy: {name: user.displayName, email: user.email}
-                }).then(fetchUser()).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub(""))
+                }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
       }
     return (
         <div className={styles.container}>

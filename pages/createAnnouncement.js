@@ -46,7 +46,7 @@ const CreateAnnouncement = () => {
             setSchoolName(docSnap.data().school_name)
             setSchoolId(docSnap.data().school_id)
             setSchoolAbbrev(docSnap.data().school_abbreviated)
-            setCompleteSchoolName(schoolAbbrev+"_"+schoolId)
+            setCompleteSchoolName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             checkAnnouncementExist(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             setRole(docSnap.data().role)
             } else {
@@ -114,11 +114,8 @@ const checkAnnouncementExist = async(complete) => {
             if (notes.length == 0) {
                 const dateNow = new Date()
                 var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
-                console.log(date)
-                await updateDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
-                    dateAdded: Date().toLocaleString(),
-                    createdBy: {name: user.displayName, email: user.email}
-                }).then(
+                console.log(completeSchoolName)
+                await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date)).then(
                 setReleased(true)
             ).then(router.replace("/")) }
 
@@ -144,6 +141,10 @@ const checkAnnouncementExist = async(complete) => {
             router.replace("/")
         } 
     }
+
+    useEffect(() => {
+        console.log(notes)
+    }, [notes])
 
     useEffect(() => {
         if (selectedOption != null) {

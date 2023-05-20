@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react'
 import styles from './event.module.css'
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { useRouter } from 'next/router'
 
 const Event = (props) => {
+  const router = useRouter()
     const eventTitle = props.title
     const eventDescription = props.description
     const eventDateTime = props.dateTime
@@ -25,7 +27,7 @@ const Event = (props) => {
     const deleteEvent = async() => {
       console.log(completeSchoolName)
       try {
-          await deleteDoc(doc(db, 'schools', completeSchoolName, "events", id)).then(console.log("deleted")).then(setRefetch(!refetch))
+          await deleteDoc(doc(db, 'schools', completeSchoolName, "events", id)).then(console.log("deleted")).then(router.reload)
       } catch (err) {
         console.log(err)
       }
