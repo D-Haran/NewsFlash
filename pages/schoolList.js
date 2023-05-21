@@ -138,7 +138,7 @@ const deleteUser = async(userInfo) => {
         </div>
         <button onClick={() => {
           deleteUser(deleteMember).then(setDeletePopUp(false)).then(fetchUser())
-        }}>Remove Student</button>
+        }}>Remove user</button>
         <button onClick={() => {setDeletePopUp(false)}}>Cancel</button>
       </div>
     }
