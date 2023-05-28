@@ -130,7 +130,7 @@ useEffect(() => {
           var date = JSON.stringify(nextDay.getFullYear()+'.'+(nextDay.getMonth()+1)+'.'+nextDay.getDate()).replace("\"", "").replace("\"", "");
           setClickedDay(date) 
           getAnnouncementToday(date) 
-        }}>Prev. &larr;</button>
+        }}>&larr; Prev.</button>
         <button onClick={(e) => {
           e.preventDefault()
           var nextDay = new Date(clickedDayDate);
