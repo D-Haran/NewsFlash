@@ -2,7 +2,7 @@
     /* background-color: #13ffff22; */
     background-color: #f7eeee;
     width: 100%;
-    z-index: 500;
+    z-index: 100;
     padding: 0 2rem;
     padding: 1.5%;
     border-bottom-left-radius: 5%;
@@ -207,7 +207,6 @@
     width: min-content;
 } */
 .profileDropDown {
-    z-index: 99;
     position: absolute;
     /* top: 3.3vh; */
     height: max-content;
@@ -215,11 +214,14 @@
     right: 7vw;
     border-bottom-left-radius: 1.1vh;
     border-bottom-right-radius: 1.1vh;
-    background: #f8b353;
+    /* background: #f8b353; */
+    background: #fff;
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.47 );
     backdrop-filter: blur( 11.5px );
     -webkit-backdrop-filter: blur( 11.5px );
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    border: 3px solid #f8b353;
+    z-index: 0;
 }
 .dropDownText {
     padding-left: 2vw;
