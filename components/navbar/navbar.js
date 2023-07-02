@@ -43,6 +43,7 @@ const Navbar = () => {
             if (router.pathname.includes("login")) {
               console.log("not logged in")
             } else {
+              console.log("pushed")
               router.push("/")
             }
           }
