@@ -35,6 +35,7 @@ const result = await signInWithPopup(auth, googleAuth) || null;
                     const docSnap = await getDoc(docRef);
                 
                     if (docSnap.exists()) {
+                        console.log("pages/login/index 39")
                         router.push("/")
                         
                     } else {

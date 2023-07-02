@@ -39,6 +39,7 @@ const Navbar = () => {
                 }
           }
           fetch()} else {
+            console.log("navbar 43")
             router.push("/")
           }
         });
