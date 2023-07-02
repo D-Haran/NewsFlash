@@ -39,8 +39,10 @@ const Navbar = () => {
                 }
           }
           fetch()} else {
-            console.log("navbar 43")
-            router.push("/")
+            if (router.pathname.includes("login")) {
+            } else {
+              router.push("/")
+            }
           }
         });
         
