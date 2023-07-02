@@ -39,12 +39,7 @@ const Navbar = () => {
                 }
           }
           fetch()} else {
-            if (router.pathname.includes("login")) {
-              console.log("not logged in")
-            } else {
-              console.log("pushed")
-              console.log(router.pathname)
-              console.log(router.pathname.includes("login"))
+            if (router.pathname.includes("login") == false) {
               router.push("/")
             }
           }
