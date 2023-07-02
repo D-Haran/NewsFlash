@@ -10,6 +10,7 @@ import LoadingBar from 'react-top-loading-bar'
 
 const Navbar = () => {
     const router = useRouter()
+    console.log(router.pathname.includes("login"))
     const [profileClicked, setProfileClicked] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [username, setUsername] = useState('Test User')
@@ -40,6 +41,7 @@ const Navbar = () => {
           }
           fetch()} else {
             if (router.pathname.includes("login")) {
+              console.log("not logged in")
             } else {
               router.push("/")
             }
