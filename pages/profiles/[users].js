@@ -59,11 +59,8 @@ const Users = () => {
                     
                   }
                   
-                } else {
-                  console.log("No such document!");
-                }
+                } 
                 } catch (err){
-                  console.log("ERROR: ", err)
                 }
           }
           fetch()}
@@ -120,7 +117,6 @@ const Users = () => {
             }
             
         } catch (err){
-            console.log(err)
         }
       }
 

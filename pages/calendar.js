@@ -57,7 +57,7 @@ const PastAnnouncements = () => {
                 
             } else {
               router.replace("/login")
-                console.log("No such document!");
+                // console.log("No such document!");
             }
       }
       fetch()
@@ -80,7 +80,7 @@ const getAnnouncementToday = async(clickedDate) => {
         setAnnouncementBool(false)
     }
   } catch (err) {
-    console.log(err)
+    // console.log(err)
   }
 
 }

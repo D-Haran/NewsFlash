@@ -29,7 +29,7 @@ const Today = () => {
                     setReturned(true)
                     
                 } else {
-                    console.log("No such document!");
+                    // console.log("No such document!");
                     deleteUser(getAuth().currentUser).then(() => {router.replace("/")})
                     router.replace("/login")
                 }
@@ -59,7 +59,7 @@ const Today = () => {
         if (docSnap.exists()) {
             setDocData(docSnap.data())
         } else {
-            console.log("no announcement")
+            // console.log("no announcement")
         }
     }
 
@@ -73,7 +73,7 @@ useEffect(() => {
     <div className={styles.container}>
     
         <div className={styles.title}>
-            <h1>Todays Morning Announcements:  {displayDate}</h1>
+            <h2>Today&#39;s Announcements:  {displayDate}</h2>
         </div>
       <main className={styles.main}>  
             {docData &&

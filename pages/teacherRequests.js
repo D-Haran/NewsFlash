@@ -40,11 +40,11 @@ const TeacherRequests = () => {
                     setAllRequests(requests)
                   }
                 } else {
-                  console.log("No such document!");
+                  // console.log("No such document!");
                   router.replace("/login")
                 }
                 } catch (err){
-                  console.log(err)
+                  // console.log(err)
                 }
           }
           fetch()}
@@ -95,7 +95,7 @@ const TeacherRequests = () => {
                 setLoading(false)
                 }
               } else {
-                console.log("No such document!");
+                // console.log("No such document!");
                 setLoading(false)
               }
         }
@@ -126,7 +126,7 @@ const TeacherRequests = () => {
                 }
                 setLoading(false)
               } else {
-                console.log("No such document!");
+                // console.log("No such document!");
                 setLoading(false)
               }
         }

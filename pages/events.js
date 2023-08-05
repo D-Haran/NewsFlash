@@ -15,6 +15,8 @@ const UpcomingEvents = () => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [dateTime, setDateTime] = useState("")
+    const [startDateTime, setStartDateTime] = useState("")
+    const [endDateTime, setEndDateTime] = useState("")
     const [location, setLocation] = useState("")
     const [club, setClub] = useState("")
     const [completeSchoolName, setCompleteSchoolName] = useState("")
@@ -27,11 +29,12 @@ const UpcomingEvents = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [refetch, setRefetch] = useState(false);
+    const [isDateRange, setIsDateRange] = useState(false);
     const events = []
     const dateToday = new Date()
     const date = dateToday.toISOString().split('T')[0]
     const fetchUser = () => {
-      console.log({date})
+      // console.log({date})
         onAuthStateChanged(auth, (user) => {
           if (user) {
             setIsLoggedIn(true)
@@ -52,7 +55,7 @@ const UpcomingEvents = () => {
                     const snapshot = await getDocs(collectionRef);
                     const dataCount = await getCountFromServer(collectionRef)
                     snapshot.forEach(doc => {
-                        console.log(doc.data())
+                        // console.log(doc.data())
                         if (dataCount.data().count - 1 > events.length) {
                             
                             if (doc.data().__ == "__") {
@@ -64,22 +67,22 @@ const UpcomingEvents = () => {
                             }
                         }
                         setEventsList(events)
-                        console.log(events)
+                        // console.log(events)
                         setEventsCount(dataCount.data().count - 1)
                     })
                   setSchoolName(docSnap.data().school_name)
                   setSchoolId(docSnap.data().school_id)
                   setSchoolAbbrev(docSnap.data().school_abbreviated)
                   setCompleteSchoolName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
-                  console.log(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
+                  // console.log(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
                   setLoading(false)
                 } else {
                   setLoading(false)
                   router.replace("/login")
-                  console.log("No such document!");
+                  // console.log("No such document!");
                 }
                 } catch (err){
-                  console.log(err)
+                  // console.log(err)
                 }
           }
           fetch()}
@@ -97,19 +100,47 @@ const UpcomingEvents = () => {
 
       const handleCreateEvent = async(e) => {
         e.preventDefault()
-        console.log(user)
+        // console.log(user)
         // const dateNow = new Date()
         //         var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
-                await addDoc(collection(db, 'schools', completeSchoolName, 'events'), {
+                if (isDateRange == false){
+                    await addDoc(collection(db, 'schools', completeSchoolName, 'events'), {
+                      title: title,
+                      description: description,
+                      dateTime: dateTime,
+                      location: location,
+                      club: club,
+                      dateAdded: Date().toLocaleString(),
+                      // createdBy: {name: user.displayName, email: user.email}
+                  }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setStartDateTime("")).then(setEndDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
+                  
+                  const chosenDate = new Date(dateTime)
+                  var dateNow = new Date(chosenDate)
+                  dateNow.setDate(chosenDate.getDate() + 1)
+                  const date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "")
+                  await setDoc(doc(db, 'schools', completeSchoolName, 'announcements', date), {
+                    notes: [{
+                      title: title,
+                      description: description,
+                    club: club}],  
+                    createdBy: {name: user.name, email: user.email},
+                      dateAdded: Date().toLocaleString(),
+                      // createdBy: {name: user.displayName, email: user.email}
+                  }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
+
+                } else {
+                  await addDoc(collection(db, 'schools', completeSchoolName, 'events'), {
                     title: title,
                     description: description,
-                    dateTime: dateTime,
+                    startDate: startDateTime,
+                    endDate: endDateTime,
                     location: location,
                     club: club,
                     dateAdded: Date().toLocaleString(),
                     // createdBy: {name: user.displayName, email: user.email}
-                }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
-                const chosenDate = new Date(dateTime)
+                }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setStartDateTime("")).then(setEndDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
+                
+                const chosenDate = new Date(startDateTime)
                 var dateNow = new Date(chosenDate)
                 dateNow.setDate(chosenDate.getDate() + 1)
                 const date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "")
@@ -123,6 +154,8 @@ const UpcomingEvents = () => {
                     // createdBy: {name: user.displayName, email: user.email}
                 }).then(setTitle("")).then(setDescription("")).then(setDateTime("")).then(setLocation("")).then(setClub("")).then(fetchUser())
 
+                }
+                
       }
     return (
         <div className={styles.container}>
@@ -132,7 +165,7 @@ const UpcomingEvents = () => {
                 <h3>Create Event</h3>
                 <form onSubmit={handleCreateEvent}>
                 <label>Title: </label>
-                    <input className={styles.inputs} value={title} onChange={(e) => {e.preventDefault(); setTitle(e.target.value)}}/>
+                    <input required className={styles.inputs} value={title} onChange={(e) => {e.preventDefault(); setTitle(e.target.value)}}/>
                     <br />
                     <div className={styles.formTextArea}>
                                     <label>Description: </label>
@@ -140,8 +173,26 @@ const UpcomingEvents = () => {
 
                     </div>
                     <br />
-                <label>Date/Time: </label>
-                    <input type="date" min={date} className={styles.inputs} value={dateTime} onChange={(e) => {e.preventDefault(); setDateTime(e.target.value); console.log(e.target.value)}} />
+                {!isDateRange && (
+                  <Fragment>
+                    <label>Date: </label>
+                        <input type="date" required min={date} className={styles.inputs} value={dateTime} onChange={(e) => {e.preventDefault(); setDateTime(e.target.value);}} />
+                    <br />
+                  </Fragment>
+                  ) 
+                }    
+                {isDateRange &&
+                  <Fragment>
+                    <label>Start Date: </label>
+                        <input type="date" required min={date} className={styles.inputs} value={startDateTime} onChange={(e) => {e.preventDefault(); setStartDateTime(e.target.value);}} />
+                    <br />
+                    <label>End Date: </label>
+                        <input type="date" required min={startDateTime} className={styles.inputs} value={endDateTime} onChange={(e) => {e.preventDefault(); setEndDateTime(e.target.value);}} />
+                    <br />
+                  </Fragment>
+                }
+                    <label>Date Range: </label>
+                    <input onChange={(e) => {setIsDateRange(e.target.checked)}} type="checkbox"/>
                     <br />
                 <label>Location: </label>
                     <input className={styles.inputs} value={location} onChange={(e) => {e.preventDefault(); setLocation(e.target.value)}} />
@@ -164,6 +215,12 @@ const UpcomingEvents = () => {
                         setDescription={event.setDescription}
                         dateTime={event.dateTime}
                         setDateTime={event.setDateTime}
+
+                        startDate={event.startDate ? event.startDate : null}
+                        endDate={event.endDate ? event.endDate : null}
+                        setStartDate={event.setStartDateTime}
+                        setEndDate={event.setEndDateTime}
+
                         location={event.location}
                         setLocation={event.setLocation}
                         club={event.club}

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import styles from './event.module.css'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, endAt, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useRouter } from 'next/router'
 
@@ -9,6 +9,8 @@ const Event = (props) => {
     const eventTitle = props.title
     const eventDescription = props.description
     const eventDateTime = props.dateTime
+    const startDate = props.startDate
+    const endDate = props.endDate
     const eventLocation = props.location
     const eventClub = props.club
     const id = props.id
@@ -21,20 +23,22 @@ const Event = (props) => {
     const [title, setTitle] = useState(eventTitle)
     const [description, setDescription] = useState(eventDescription)
     const [dateTime, setDateTime] = useState(eventDateTime)
+    const [startDateTime, setStartDateTime] = useState(startDate)
+    const [endDateTime, setEndDateTime] = useState(endDate)
     const [location, setLocation] = useState(eventLocation)
     const [club, setClub] = useState(eventClub)
 
     const deleteEvent = async() => {
-      console.log(completeSchoolName)
+      // console.log(completeSchoolName)
       try {
-          await deleteDoc(doc(db, 'schools', completeSchoolName, "events", id)).then(console.log("deleted")).then(router.reload)
+          await deleteDoc(doc(db, 'schools', completeSchoolName, "events", id)).then(router.reload)
           const chosenDate = new Date(dateTime)
           var dateNow = new Date(chosenDate)
           dateNow.setDate(chosenDate.getDate() + 1)
           const date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "")
           await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date))
       } catch (err) {
-        console.log(err)
+        // console.log(err)
       }
     }
 
@@ -43,21 +47,36 @@ const Event = (props) => {
       setTitle(eventTitle)
       setDescription(eventDescription)
       setDateTime(eventDateTime)
+      setStartDateTime(startDate)
+      setEndDateTime(endDate)
       setLocation(eventLocation)
       setClub(eventClub)
       setEditting(false)
     }
-    const handleUpdate = async(e) => {
-      e.preventDefault()
-      await updateDoc(doc(db, 'schools', completeSchoolName, 'events', id), {
-        title: title,
-        description: description,
-        club:club,
-        location: location,
-        dateTime: dateTime,
-        club: club,
-        dateAdded: Date().toLocaleString(),
-      }).then(setEditting(false)).then(setRefetch(!refetch))
+    const handleUpdate = async(rangeBool) => {
+      if (rangeBool == false) {
+        await updateDoc(doc(db, 'schools', completeSchoolName, 'events', id), {
+          title: title,
+          description: description,
+          club:club,
+          location: location,
+          dateTime: dateTime,
+          club: club,
+          dateAdded: Date().toLocaleString(),
+        }).then(setEditting(false)).then(setRefetch(!refetch))
+
+      } else {
+        await updateDoc(doc(db, 'schools', completeSchoolName, 'events', id), {
+          title: title,
+          description: description,
+          club:club,
+          location: location,
+          startDate: startDateTime,
+          endDate: endDateTime,
+          club: club,
+          dateAdded: Date().toLocaleString(),
+        }).then(setEditting(false)).then(setRefetch(!refetch))
+      }
     }
 
   return (
@@ -84,13 +103,24 @@ const Event = (props) => {
         <br />
         <label className={styles.labels}>Location: </label>{location}
         <br />
-        <label className={styles.labels}>Date: </label>{dateTime}
+        {dateTime &&
+          <Fragment>
+            <label className={styles.labels}>Date: </label>{dateTime}
+          </Fragment>
+        }
+        {!dateTime &&
+          <Fragment>
+            <label className={styles.labels}>Start Date: </label>{startDate}
+            <label className={styles.labels}>End Date: </label>{endDate}
+          </Fragment>
+        }
+        
       </Fragment>
     }
     
     {editting &&
       <Fragment>
-      <form onSubmit={handleUpdate}>
+      <form onSubmit={() => {startDate == null ? handleUpdate(false): handleUpdate(true)}}>
         <label className={styles.labels}>Title: </label> 
         <input value={title} onChange={(e) => {setTitle(e.target.value)}}/>
         <br />
@@ -103,8 +133,21 @@ const Event = (props) => {
         <label className={styles.labels}>Location: </label>
         <input value={location} onChange={(e) => {setLocation(e.target.value)}}/>
         <br />
-        <label className={styles.labels}>Date: </label>
-        <input type='date' value={dateTime} onChange={(e) => {setDateTime(e.target.value)}}/>
+        {dateTime &&
+          <Fragment>
+            <label className={styles.labels}>Date: </label>
+            <input type='date' value={dateTime} onChange={(e) => {setDateTime(e.target.value)}}/>
+          </Fragment>
+        }
+        {!dateTime &&
+          <Fragment>
+            <label className={styles.labels}>Start Date: </label>
+            <input type='date' value={startDateTime} onChange={(e) => {setStartDateTime(e.target.value)}}/>
+            <label className={styles.labels}>End Date: </label>
+            <input type='date' min={startDateTime} value={endDateTime} onChange={(e) => {setEndDateTime(e.target.value)}}/>
+          </Fragment>
+        }
+        
         <div className={styles.buttons}>
           <button type="submit">Save</button>
           <button onClick={handleCancel}>Cancel</button>

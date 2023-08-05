@@ -39,8 +39,8 @@ const Navbar = () => {
                 }
           }
           fetch()} else {
-            if (router.pathname.includes("login") == false) {
-              router.push("/")
+            if (router.pathname == "login" && router.pathname == "about") {
+              router.replace("/")
             }
           }
         });
@@ -71,7 +71,7 @@ const Navbar = () => {
             <div className={styles.LogoIcon}>
               <Image onClick={() => {router.push("/")}} src={"/static/LogoOrangeSlim.svg"} alt="NewsFlash Logo" width={200} height={200} objectFit='fill' layout='fill' />               
             </div>
-                {router.asPath != "/login" &&
+              {isLoggedIn &&
               <div onClick={() => {router.push("/today")}} className={styles.searchContainer}>
                 <button className={styles.search}>Morning Announcements</button>
                 </div> 
@@ -108,7 +108,7 @@ const Navbar = () => {
                     <ul>
                       <p className={styles.dropDownText} onClick={(e) => {signOut(auth).then(function() {
                           e.preventDefault()
-                          console.log('Signed Out');
+                          // console.log('Signed Out');
                           localStorage.removeItem("displayName")
                           router.reload()
                         }, function(error) {

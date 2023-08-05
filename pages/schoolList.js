@@ -82,11 +82,11 @@ const SchoolList = () => {
                 }
                 
             } else {
-              console.log("No such document!");
+              // console.log("No such document!");
               router.replace("/login")
             }
             } catch (err){
-              console.log(err)
+              // console.log(err)
             }
       }
       fetch()}
@@ -120,7 +120,7 @@ fetchUser()
 const deleteUser = async(userInfo) => {
   if (userInfo[0] == "student") {
     await deleteDoc(doc(db, 'schools', schoolUserName, 'students', userInfo[1]))
-    await deleteDoc(doc(db, 'users', userInfo[2])).then(console.log("deleted"))
+    await deleteDoc(doc(db, 'users', userInfo[2]))
   }
   else if (userInfo[0] == "teacher") {
     await deleteDoc(doc(db, 'schools', schoolUserName, 'teachers', userInfo[1]))
@@ -148,7 +148,7 @@ const deleteUser = async(userInfo) => {
         <div className={styles.cardContainer}>
         {teachersList.map((teacher, idx) => {
           if (teacher.email) {
-            console.log(teacher)
+            // console.log(teacher)
             return(
             <div key={idx} className={styles.card}>
             {!teacher.you &&
@@ -172,7 +172,7 @@ const deleteUser = async(userInfo) => {
         <div className={styles.cardContainer}>
         {studentsList.map((student, idx) => {
           if (student.email) {
-            console.log(student)
+            // console.log(student)
             return(
             <div key={idx} className={styles.card}>
             <p onClick={() => {

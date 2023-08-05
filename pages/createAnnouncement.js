@@ -1,30 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import Task from '../components/task/task'
 import { useRouter } from 'next/router'
 import Select, { components } from 'react-select'
 import TaskAdded from '../components/task/taskAdded/taskAdded'
-import { collection, getDocs, doc, setDoc, addDoc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import {auth, db} from '../firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import styles from '../styles/createAnnouncement.module.css'
-import { Suspense } from 'react';
-
 const CreateAnnouncement = () => {
     const router = useRouter()
-    const [numOfTasks, setNumOfTasks] = useState(3)
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [notes, setNotes] = useState([])
-    const [completeNotes, setCompleteNotes] = useState([])
     const [options, setOptions] = useState([
         { value: 'createNew', label: 'Create a new club...' },
       ])
     const [selectedOption, setSelectedOption] = useState({})
     const [clubName, setClubName] = useState({})
-    const [createNewClub, setCreateNewClub] = useState(false)
-    const [schoolName, setSchoolName] = useState(false)
-    const [schoolAbbrev, setSchoolAbbrev] = useState("")
-    const [schoolId, setSchoolId] = useState(null);
+    const [createNewClub, setCreateNewClub] = useState(false);
     const [confirmClub, setConfirmClub] = useState(null);
     const [released, setReleased] = useState(false)
     const [taskAdded, setTaskAdded] = useState(null)
@@ -43,9 +35,6 @@ const CreateAnnouncement = () => {
             const docSnap = await getDoc(docRef);
     
             if (docSnap.exists()) {
-            setSchoolName(docSnap.data().school_name)
-            setSchoolId(docSnap.data().school_id)
-            setSchoolAbbrev(docSnap.data().school_abbreviated)
             setCompleteSchoolName(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             checkAnnouncementExist(docSnap.data().school_abbreviated+"_"+docSnap.data().school_id)
             setRole(docSnap.data().role)
@@ -101,7 +90,7 @@ const checkAnnouncementExist = async(complete) => {
             }
         setNotesAdded(true)
         } else {
-        console.log("No such announcement!");
+        // console.log("No such announcement!");
         }
 }
     
@@ -114,7 +103,7 @@ const checkAnnouncementExist = async(complete) => {
             if (notes.length == 0) {
                 const dateNow = new Date()
                 var date = JSON.stringify(dateNow.getFullYear()+'.'+(dateNow.getMonth()+1)+'.'+dateNow.getDate()).replace("\"", "").replace("\"", "");
-                console.log(completeSchoolName)
+                // console.log(completeSchoolName)
                 await deleteDoc(doc(db, 'schools', completeSchoolName, 'announcements', date)).then(
                 setReleased(true)
             ).then(router.replace("/")) }
@@ -133,7 +122,7 @@ const checkAnnouncementExist = async(complete) => {
             
         } catch {
             setLoading(false)
-            console.log("Rejected")
+            // console.log("Rejected")
         }  
         }
         else {
@@ -142,9 +131,6 @@ const checkAnnouncementExist = async(complete) => {
         } 
     }
 
-    useEffect(() => {
-        console.log(notes)
-    }, [notes])
 
     useEffect(() => {
         if (selectedOption != null) {
@@ -220,8 +206,11 @@ const checkAnnouncementExist = async(complete) => {
     loading &&
     <button disabled className={styles.createAnnouncement}>Loading...</button>
 }
-{!loading &&
+{!loading && notes.length > 0 &&
     <button className={styles.createAnnouncement} onClick={releaseAnnouncement}>Release Announcements</button>
+}
+{!loading && notes.length == 0 &&
+    <button disabled className={styles.createAnnouncement} onClick={releaseAnnouncement}>Release Announcements</button>
 }
 </form>}
 
@@ -236,8 +225,5 @@ const checkAnnouncementExist = async(complete) => {
   )
 }
 
-function Loading() {
-    return <h1>🌀 Loading...</h1>;
-}
 
 export default CreateAnnouncement

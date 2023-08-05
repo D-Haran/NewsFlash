@@ -84,7 +84,6 @@ const Teacher = () => {
             name: localStorage.getItem("displayName"),
             dateAdded: Date().toLocaleString()
         })
-        console.log("/pages/login/create/teacher/index.js 88")
         router.push("/")
       }
       else {
@@ -112,7 +111,6 @@ const Teacher = () => {
           dateAdded: Date().toLocaleString(),
           database_doc_name: userName
     })
-    console.log("/pages/login/create/teacher/index.js 116")
     router.push("/")
       } else {
         setWrong(true)
