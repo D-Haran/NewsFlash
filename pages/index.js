@@ -176,12 +176,9 @@ export default function Home() {
             </Fragment>
             
         }
-        <div className={styles.card} onClick={(e) => {signOut(auth).then(function() {
+        <div className={styles.card} onClick={(e) => {
             e.preventDefault()
-            router.push("/about")
-          }, function(error) {
-            console.error('Sign Out Error', error);
-          });}}>
+            router.push("/about")}}>
             <h2>About </h2>
             <p>{"Find out what NewsFlash is all about!"}</p>
           </div> 
